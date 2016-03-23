@@ -30,6 +30,8 @@
 #include <sstream>
 #include <time.h>
 
+//modifi1
+//movi2
 //ce s-o intampa
 //bla bla bla
 std::vector<std::string> &split(const std::string &s, char delim, std::vector<std::string> &elems) {
