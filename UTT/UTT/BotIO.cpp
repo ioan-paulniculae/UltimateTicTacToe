@@ -1,0 +1,104 @@
+#include "stdafx.h"
+#include "BotIO.h"
+#include "Utility.h"
+using namespace UTTT::Core;
+
+//Bot initialization.
+BotIO::BotIO() {
+	srand(static_cast<unsigned int>(time(0)));
+	_field.resize(81);
+	_macroboard.resize(9);
+}
+
+
+void BotIO::loop() {
+	std::string line;
+	std::vector<std::string> command;
+	command.reserve(256);
+
+	while (std::getline(std::cin, line)) {
+		processCommand(Utility::split(line, ' ', command));
+	}
+}
+	
+std::pair<int, int> BotIO::action(const std::string &type, int time) {
+	return getRandomFreeCell();
+}
+
+std::pair<int, int> BotIO::getRandomFreeCell() const {
+	debug("Using random algorithm.");
+	std::vector<int> freeCells;
+	for (int i = 0; i < 81; ++i) {
+		int blockId = ((i / 27) * 3) + (i % 9) / 3;
+		if (_macroboard[blockId] == -1 && _field[i] == 0) {
+			freeCells.push_back(i);
+		}
+	}
+	int randomCell = freeCells[rand() % freeCells.size()];
+	return std::make_pair(randomCell % 9, randomCell / 9);
+}
+
+void BotIO::processCommand(const std::vector<std::string> &command) {
+	if (command[0] == "action") {
+		auto point = action(command[1], Utility::stringToInt(command[2]));
+		std::cout << "place_move " << point.first << " " << point.second << std::endl << std::flush;
+	}
+	else if (command[0] == "update") {
+		update(command[1], command[2], command[3]);
+	}
+	else if (command[0] == "settings") {
+		setting(command[1], command[2]);
+	}
+	else {
+		debug("Unknown command <" + command[0] + ">.");
+	}
+}
+
+void BotIO::update(const std::string& player, const std::string& type, const std::string& value) {
+	if (player != "game" && player != _myName) {
+		// It's not my update!
+		return;
+	}
+
+	if (type == "round") {
+		_round = Utility::stringToInt(value);
+	}
+	else if (type == "move") {
+		_move = Utility::stringToInt(value);
+	}
+	else if (type == "macroboard" || type == "field") {
+		std::vector<std::string> rawValues;
+		Utility::split(value, ',', rawValues);
+		std::vector<int>::iterator choice = (type == "field" ? _field.begin() : _macroboard.begin());
+		std::transform(rawValues.begin(), rawValues.end(), choice, Utility::stringToInt);
+	}
+	else {
+		debug("Unknown update <" + type + ">.");
+	}
+}
+
+void BotIO::setting(const std::string& type, const std::string& value) {
+	if (type == "timebank") {
+		_timebank = Utility::stringToInt(value);
+	}
+	else if (type == "time_per_move") {
+		_timePerMove = Utility::stringToInt(value);
+	}
+	else if (type == "player_names") {
+		Utility::split(value, ',', _playerNames);
+	}
+	else if (type == "your_bot") {
+		_myName = value;
+	}
+	else if (type == "your_botid") {
+		_botId = Utility::stringToInt(value);
+	}
+	else {
+		debug("Unknown setting <" + type + ">.");
+	}
+}
+
+void BotIO::debug(const std::string &s) const {
+	std::cerr << s << std::endl << std::flush;
+}
+

@@ -1,0 +1,12 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+*.idb
+*.obj
+*.tlog
+/UTT/UTT/x64/Debug
+/UTT/x64/Debug
+/UTT/UTT.sdf
+/UTT/UTT.VC.opendb
+/UTT/.vs/UTT/v14
