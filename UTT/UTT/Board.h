@@ -7,10 +7,10 @@ class Board
 	
 public:
 	int starting_position[] = { 0, 3, 6, 27, 30, 33, 54, 57, 60 };
-	bool is_empty_board(std::string &s, int board);
-	bool board_to_close(std::string &s, int board, int player);
+	bool is_empty_board(std::vector<int> &s, int board);
+	bool board_to_close(std::vector<int> &s, int board, int player);
 	int position_to_board(int value);
-	std::vector<int> empty_positions(std::string &s, int board);
+	std::vector<int> empty_positions(std::vector<int> &s, int board);
 
 
 	Board();

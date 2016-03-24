@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 
-bool Board::is_empty_board(std::string &s, int board) {
+bool Board::is_empty_board(std::vector<int> &s, int board) {
 
 	int x = starting_position[board];
 	int i, j;
@@ -16,7 +16,7 @@ bool Board::is_empty_board(std::string &s, int board) {
 			Position x;
 			const int pos = x.get_position(board, i, j);
 
-			if (s[pos] != '0') {
+			if (s[pos] != 0) {
 				return false;
 			}
 
@@ -27,7 +27,7 @@ bool Board::is_empty_board(std::string &s, int board) {
 }
 
 
-bool Board::board_to_close(std::string &s, int board, int player) {
+bool Board::board_to_close(std::vector<int> &s, int board, int player) {
 
 	int x = starting_position[board];
 	int i, j;
@@ -41,7 +41,7 @@ bool Board::board_to_close(std::string &s, int board, int player) {
 			Position x;
 			int pos = x.get_position(board, i, j);
 
-			if ((int)s[pos] - '0' == player) {
+			if (s[pos] == player) {
 				count++;
 			}
 		}
@@ -57,7 +57,7 @@ bool Board::board_to_close(std::string &s, int board, int player) {
 			Position x;
 			int pos = x.get_position(board, i, j);
 
-			if ((int)s[pos] - '0' == player) {
+			if (s[pos] == player) {
 				count++;
 			}
 		}
@@ -72,7 +72,7 @@ bool Board::board_to_close(std::string &s, int board, int player) {
 
 	for (int i = 0; i < 3; ++i) {
 
-		if ((int)s[posdiag1 + 10 * i] - '0' == player) {
+		if (s[posdiag1 + 10 * i]  == player) {
 			count++;
 		}
 	}
@@ -85,7 +85,7 @@ bool Board::board_to_close(std::string &s, int board, int player) {
 
 	for (int i = 0; i < 3; ++i) {
 
-		if ((int)s[posdiag1 + 8 * i] - '0' == player) {
+		if (s[posdiag1 + 8 * i] == player) {
 			count++;
 		}
 	}
@@ -117,7 +117,7 @@ int Board::position_to_board(int value) {
 	return number;
 }
 
-std::vector<int> Board::empty_positions(std::string &s, int board) {
+std::vector<int> Board::empty_positions(std::vector<int> &s, int board) {
 
 	int i, j;
 	std::vector<int> empty_pos;
@@ -128,7 +128,7 @@ std::vector<int> Board::empty_positions(std::string &s, int board) {
 			Position x; 
 			int start = x.get_position(board, i, j);
 
-			if (s[start] == '0') {
+			if (s[start] == 0) {
 				empty_pos.push_back(start);
 			}
 
