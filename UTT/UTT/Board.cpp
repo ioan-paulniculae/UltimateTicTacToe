@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 
-bool Board::is_empty_board(std::vector<int> &s, int board) {
+bool Board::EmptyBoard(std::vector<int> &s, int board) {
 
 	int x = starting_position[board];
 	int i, j;
@@ -14,7 +14,7 @@ bool Board::is_empty_board(std::vector<int> &s, int board) {
 		for (j = 0; j < 3; ++j) {
 
 			Position x;
-			const int pos = x.get_position(board, i, j);
+			const int pos = x.GetPosition(board, i, j);
 
 			if (s[pos] != 0) {
 				return false;
@@ -27,7 +27,7 @@ bool Board::is_empty_board(std::vector<int> &s, int board) {
 }
 
 
-bool Board::board_to_close(std::vector<int> &s, int board, int player) {
+bool Board::CanClose(std::vector<int> &s, int board, int player) {
 
 	int x = starting_position[board];
 	int i, j;
@@ -39,7 +39,7 @@ bool Board::board_to_close(std::vector<int> &s, int board, int player) {
 		for (j = 0; j < 3; ++j) {
 
 			Position x;
-			int pos = x.get_position(board, i, j);
+			int pos = x.GetPosition(board, i, j);
 
 			if (s[pos] == player) {
 				count++;
@@ -55,7 +55,7 @@ bool Board::board_to_close(std::vector<int> &s, int board, int player) {
 		for (i = 0; i < 3; ++i) {
 
 			Position x;
-			int pos = x.get_position(board, i, j);
+			int pos = x.GetPosition(board, i, j);
 
 			if (s[pos] == player) {
 				count++;
@@ -67,7 +67,7 @@ bool Board::board_to_close(std::vector<int> &s, int board, int player) {
 
 
 	Position y;
-	int posdiag1 = y.get_position(board, 0, 0);
+	int posdiag1 = y.GetPosition(board, 0, 0);
 	count = 0;
 
 	for (int i = 0; i < 3; ++i) {
@@ -80,7 +80,7 @@ bool Board::board_to_close(std::vector<int> &s, int board, int player) {
 	if (count == 2)
 		return true;
 
-	int posdiag2 = y.get_position(board, 0, 2);
+	int posdiag2 = y.GetPosition(board, 0, 2);
 	count = 0;
 
 	for (int i = 0; i < 3; ++i) {
@@ -96,7 +96,7 @@ bool Board::board_to_close(std::vector<int> &s, int board, int player) {
 	return false;
 }
 
-int Board::position_to_board(int value) {
+int Board::PositionToBoard(int value) {
 
 	int line = value / 9;
 	int col = value % 9;
@@ -126,7 +126,7 @@ std::vector<int> Board::empty_positions(std::vector<int> &s, int board) {
 		for (j = 0; j < 3; ++j) {
 
 			Position x; 
-			int start = x.get_position(board, i, j);
+			int start = x.GetPosition(board, i, j);
 
 			if (s[start] == 0) {
 				empty_pos.push_back(start);
