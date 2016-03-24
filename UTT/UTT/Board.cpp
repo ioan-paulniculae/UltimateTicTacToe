@@ -6,7 +6,7 @@
 
 bool Board::EmptyBoard(std::vector<int> &s, int board) {
 
-	int x = starting_position[board];
+	int x = Position::startingPosition[board];
 	int i, j;
 
 
@@ -28,7 +28,7 @@ bool Board::EmptyBoard(std::vector<int> &s, int board) {
 
 bool Board::CanClose(std::vector<int> &s, int board, int player) {
 
-	int x = starting_position[board];
+	int x = Position::startingPosition[board];
 	int i, j;
 	int count;
 
