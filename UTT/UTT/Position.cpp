@@ -2,7 +2,7 @@
 #include "Position.h"
 #include <cassert>
 
-std::vector<int> Position::startingPosition = { 0, 3, 6, 27, 30, 33, 54, 57, 60};
+const std::vector<int> Position::startingPosition = { 0, 3, 6, 27, 30, 33, 54, 57, 60};
 
 int Position::getPosition(const int board, const int i, const int j)
 {
