@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "BotIO.h"
 #include "Utility.h"
+#include "Position.h"
+
 using namespace UTTT::Core;
 
 //Bot initialization.
