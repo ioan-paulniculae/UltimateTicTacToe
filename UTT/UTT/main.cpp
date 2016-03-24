@@ -23,6 +23,10 @@
  ******************************************************************************/
 #include "stdafx.h"
 #include "BotIO.h"
+#include "Position.h"
+#include "Board.h"
+
+
 
 
 int main() {
