@@ -1,40 +1,17 @@
-========================================================================
-    CONSOLE APPLICATION : UTT Project Overview
-========================================================================
+Ultimate Tic Tac Toe 
+CCBigBlackBug
 
-AppWizard has created this UTT application for you.
+Niculae Ioan - Paul
+Albu Alexandru
+Ciuca Maria Theodora
+Toader Calin Mihai
 
-This file contains a summary of what you will find in each of the files that
-make up your UTT application.
+credentials:
+domain: pub.theaigames.com
+username: ioan_paul.niculae@stud.acs.upb.ro
+password: Galben12!@
 
-
-UTT.vcxproj
-    This is the main project file for VC++ projects generated using an Application Wizard.
-    It contains information about the version of Visual C++ that generated the file, and
-    information about the platforms, configurations, and project features selected with the
-    Application Wizard.
-
-UTT.vcxproj.filters
-    This is the filters file for VC++ projects generated using an Application Wizard. 
-    It contains information about the association between the files in your project 
-    and the filters. This association is used in the IDE to show grouping of files with
-    similar extensions under a specific node (for e.g. ".cpp" files are associated with the
-    "Source Files" filter).
-
-UTT.cpp
-    This is the main application source file.
-
-/////////////////////////////////////////////////////////////////////////////
-Other standard files:
-
-StdAfx.h, StdAfx.cpp
-    These files are used to build a precompiled header (PCH) file
-    named UTT.pch and a precompiled types file named StdAfx.obj.
-
-/////////////////////////////////////////////////////////////////////////////
-Other notes:
-
-AppWizard uses "TODO:" comments to indicate parts of the source code you
-should add to or customize.
-
-/////////////////////////////////////////////////////////////////////////////
+//minitutorial :
+se arhiveaza sursele + headerele intr-o arhiva .zip(nu conteaza numele)
+se incarca pe site
+win??
