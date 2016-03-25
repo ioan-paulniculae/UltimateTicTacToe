@@ -133,6 +133,10 @@ std::vector<int> Board::empty_positions(std::vector<int> &s, int board) {
 
 	return empty_pos;
 }
+bool Board::TwoOnFirstDiagonal()
+{
+	return false;
+}
 Board::Board()
 {
 }
