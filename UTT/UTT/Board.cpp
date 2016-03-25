@@ -88,7 +88,7 @@ bool Board::TwoOnFirstDiagonal(std::pair<int, int> &PositionToClose, std::vector
 
 	for (int i = 0; i < 3; ++i) {
 		if (s[position + 10 * i] == player) {
-			count++;
+			count++; 
 		}
 		else {
 			if (s[position + 10 * i] == 0) {
@@ -99,7 +99,7 @@ bool Board::TwoOnFirstDiagonal(std::pair<int, int> &PositionToClose, std::vector
 	}
 
 	if (count == 2) {
-		return true;
+		return true; 
 	}
 	else {
 		PositionToClose.first = -1;

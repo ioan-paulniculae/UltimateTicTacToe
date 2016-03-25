@@ -3,7 +3,7 @@
 
 class Board
 {
-	
+	 
 public:
 	bool EmptyBoard(std::vector<int> &s, int board);
 	bool CheckIfPlayerCanClose(std::pair<int,int> &PositionToClose, std::vector<int> &s, int board, int player);
