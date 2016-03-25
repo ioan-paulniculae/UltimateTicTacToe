@@ -12,6 +12,7 @@ username: ioan_paul.niculae@stud.acs.upb.ro
 password: Galben12!@
 
 //minitutorial :
+
 se arhiveaza sursele + headerele intr-o arhiva .zip(nu conteaza numele)
 se incarca pe site
 win??
