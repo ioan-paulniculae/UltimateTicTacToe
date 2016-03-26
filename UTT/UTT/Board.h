@@ -9,7 +9,7 @@ public:
 	bool isEmpty(const int board) const;
 	bool getClosingPositions(const int board, const int player, std::pair<int, int> &PositionToClose) const;
 	int getBoard(const int value) const;
-	std::vector<int> getEmptyPositions(const int board);
+	void getEmptyPositions(const int board, std::vector<int> &emptyPositions);
 	~Board();
 private:
 	std::vector<int>_fied;

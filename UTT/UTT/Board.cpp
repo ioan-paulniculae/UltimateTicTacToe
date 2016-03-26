@@ -187,25 +187,26 @@ int Board::getBoard(const int value) const{
 	return number;
 }
 
-std::vector<int> Board::getEmptyPositions(const int board) {
+void Board::getEmptyPositions(const int board, std::vector<int> &emptyPositions){
 
 	int i, j;
-	std::vector<int> empty_pos;
-
+	
 	for (i = 0; i < 3; ++i) {
 		for (j = 0; j < 3; ++j) {
 
 			int start = Position::getPosition(board, i, j);
 
-			if (_macroboard[start] == 0) {
-				empty_pos.push_back(start);
+			if (_field[start] == 0) {
+				emptyPositions.push_back(start);
 			}
 		}
 	}
-
-	return empty_pos;
 }
 
+const int getCurrentPlayingBoards(const int board) {
+
+
+}
 Board::Board()
 {
 }
