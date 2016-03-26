@@ -1,9 +1,27 @@
 //teo
-refactor board methods Done
-modify getClosingPositions to return without duplicates
+-refactor board methods DONE
+-modify getClosingPositions to return without duplicates DONE
++alex !given a board b, select from the empty spaces the positions, that send the oponent to a game where he cannot close(0 or 1 on same row/column/diagonal)
++alex !chose the best one from them: (random at fist, to be further improved later)
++(paul + alex + calin) !given a board b, select the location that gives the most advantage (MINIMAX)
 
 
 //alex
-getCurrentPlayingBoards
-//scaneaza vectoru de boards si adaunga intr-un container 
-//boardurile care sunt -1
+-getCurrentPlayingBoards DONE
++theo !given a board b, select from the empty spaces the positions, that send the oponent to a game where he cannot close(0 or 1 on same row/column/diagonal)
++theo !chose the best one from them: (random at fist, to be further improved later)
++(theo + paul + calin) !given a board b, select the location that gives the most advantage (MINIMAX)
+
+
+//calin
+!given a board b, select from the empty spaces the positions, that send the oponent to a game that is empty
+!chose the best one from them: (random at fist, to be further improved later)
++(theo + alex + paul) !given a board b, select the location that gives the most advantage (MINIMAX)
+
+
+//paul
+!constant debugging
+!refactoring
+!given a board b, where you can close, select the best move to close
+!given a board b, where the oponent can close, select the best move to close
++(theo + alex + calin) !given a board b, select the location that gives the most advantage (MINIMAX)
