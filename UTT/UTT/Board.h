@@ -9,15 +9,18 @@ public:
 	bool isEmpty(const int board) const;
 	bool getClosingPositions(const int board, const int player, std::pair<int, int> &PositionToClose) const;
 	int getBoard(const int value) const;
-	void getEmptyPositions(const int board, std::vector<int> &emptyPositions);
+	void getEmptyPositions(const int board, std::vector<int> &emptyPositions) const;
+	void getCurrentPlayingBoards(std::vector<int>& playing_boards) const;
+	
 	~Board();
 private:
-	std::vector<int>_fied;
+	std::vector<int>_field;
 	std::vector<int>_macroboard;
 	bool twoOnRow(const int board, int player, std::pair<int, int> &PositionToClose) const;
 	bool twoOnColumn(const int board, const int player, std::pair<int, int> &PositionToClose) const;
 	bool twoOnFirstDiagonal(const int board, const int player, std::pair<int, int> &PositionToClose) const;
 	bool twoOnSecondDiagonal(const int board, const int player, std::pair<int, int> &PositionToClose) const;
+
 
 	Board();
 

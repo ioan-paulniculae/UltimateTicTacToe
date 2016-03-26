@@ -2,6 +2,7 @@
 #include "BotIO.h"
 #include "Utility.h"
 #include "Board.h"
+#include "Position.h"
 using namespace UTTT::Core;
 
 //Bot initialization.
@@ -39,6 +40,24 @@ void BotIO::loop() {
 std::pair<int, int> BotIO::action(const std::string &type, int time) {
 
 	Board board(_field, _macroboard);
+
+	auto poz = Position::getMatrixPosition(13);
+	 poz = Position::getMatrixPosition(14);
+	 poz = Position::getMatrixPosition(15);
+	 poz = Position::getMatrixPosition(16);
+	 poz = Position::getMatrixPosition(17);
+	 poz = Position::getMatrixPosition(18);
+	 poz = Position::getMatrixPosition(25);
+	 poz = Position::getMatrixPosition(67);
+	 poz = Position::getMatrixPosition(80);
+	 poz = Position::getMatrixPosition(45);
+	 poz = Position::getMatrixPosition(0);
+	 poz = Position::getMatrixPosition(29);
+	std::vector<int> testBoards;
+	board.getCurrentPlayingBoards(testBoards);
+	std::vector<int> testPos;
+
+	board.getEmptyPositions(testBoards[0], testPos);
 	return getRandomFreeCell();
 }
 
