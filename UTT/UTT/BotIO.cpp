@@ -38,7 +38,7 @@ void BotIO::loop() {
 	
 std::pair<int, int> BotIO::action(const std::string &type, int time) {
 
-
+	Board board(_field, _macroboard);
 	return getRandomFreeCell();
 }
 
