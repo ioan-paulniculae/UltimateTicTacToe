@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "BotIO.h"
 #include "Utility.h"
-
+#include "Board.h"
 using namespace UTTT::Core;
 
 //Bot initialization.
@@ -11,6 +11,20 @@ BotIO::BotIO() {
 	_macroboard.resize(9);
 }
 
+
+int UTTT::Core::BotIO::getBotId() const
+{
+	return _botId;
+}
+
+int UTTT::Core::BotIO::getOponentId() const
+{
+	if (getBotId() == 1)
+	{
+		return 2;
+	}
+	return 1;
+}
 
 void BotIO::loop() {
 	std::string line;
@@ -23,6 +37,8 @@ void BotIO::loop() {
 }
 	
 std::pair<int, int> BotIO::action(const std::string &type, int time) {
+
+	Board b;
 	return getRandomFreeCell();
 }
 

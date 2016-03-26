@@ -8,7 +8,8 @@ namespace UTTT {
 		public:
 			BotIO();
 			inline ~BotIO() {};
-
+			int getBotId()const;
+			int getOponentId() const;
 			void loop();
 		private:
 			// static settings
