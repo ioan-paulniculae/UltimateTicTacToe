@@ -10,7 +10,9 @@ public:
 	bool isEmpty(const int board) const;
 	bool getClosingPositions(const int board, const int player, std::set< std::pair<int, int> > &allPositionsToClose) const;
 	int getBoard(const int value) const;
-	void getEmptyPositions(const int board, std::vector<int> &emptyPositions);
+	void getEmptyPositions(const int board, std::vector<int> &emptyPositions) const;
+	void getCurrentPlayingBoards(std::vector<int>& playing_boards) const;
+	
 	~Board();
 private:
 	std::vector<int>_field;
@@ -19,6 +21,7 @@ private:
 	bool twoOnColumn(const int board, const int player, std::vector< std::pair<int, int> > &PositionToClose) const;
 	bool twoOnFirstDiagonal(const int board, const int player, std::vector< std::pair<int, int> > &PositionToClose) const;
 	bool twoOnSecondDiagonal(const int board, const int player, std::vector< std::pair<int, int> > &PositionToClose) const;
+
 
 	Board();
 

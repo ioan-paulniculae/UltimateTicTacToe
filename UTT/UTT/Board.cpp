@@ -2,6 +2,7 @@
 #include "Board.h"
 #include "Position.h"
 #include <string>
+#include <cassert>
 #include <vector>
 #include <set>
 
@@ -208,14 +209,14 @@ int Board::getBoard(const int value) const{
 	return number;
 }
 
-void Board::getEmptyPositions(const int board, std::vector<int> &emptyPositions){
+void Board::getEmptyPositions(const int board, std::vector<int> &emptyPositions) const{
 
 	int i, j;
-	
+	int start;
 	for (i = 0; i < 3; ++i) {
 		for (j = 0; j < 3; ++j) {
 
-			int start = Position::getPosition(board, i, j);
+			start = Position::getPosition(board, i, j);
 
 			if (_field[start] == 0) {
 				emptyPositions.push_back(start);
@@ -224,10 +225,17 @@ void Board::getEmptyPositions(const int board, std::vector<int> &emptyPositions)
 	}
 }
 
-const int getCurrentPlayingBoards(const int board) {
+void Board::getCurrentPlayingBoards(std::vector<int> &playingBoards) const{
 
+	for (int i = 0; i < 9; ++i) {
+		if (_macroboard[i] == -1)
+		{
+			playingBoards.push_back(i);
+		}
+	}
 
 }
+
 Board::Board()
 {
 }

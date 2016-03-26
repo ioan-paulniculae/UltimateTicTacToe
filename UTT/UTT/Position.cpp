@@ -20,3 +20,13 @@ void Position::setPosition(std::vector<int>& macroboard,const int board, const i
 	int position = getPosition(board, i, j);
 	macroboard[position] = player;
 }
+
+std::pair<int, int> Position::getMatrixPosition(const int value) {
+
+	assert(0 <= value && value <= 80);
+	int x = value / 9;
+	int y = value - 9 * x;
+	return std::make_pair(x, y);
+
+}
+
