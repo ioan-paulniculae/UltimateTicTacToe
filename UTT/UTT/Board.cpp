@@ -10,7 +10,7 @@ Board::Board(std::vector<int>& field, std::vector<int>& macroboard)
 	_macroboard = macroboard;
 }
 
-bool Board::EmptyBoard(int board) {
+bool Board::isEmpty(const int board) const {
 
 	int x = Position::startingPosition[board];
 	int i, j;
@@ -31,7 +31,7 @@ bool Board::EmptyBoard(int board) {
 	return true;
 }
 
-bool Board::TwoOnRow(std::pair<int, int> &PositionToClose, int board, int player) {
+bool Board::twoOnRow(const int board, int player, std::pair<int, int> &PositionToClose) const {
 
 	int i, j;
 	int count;
@@ -60,7 +60,7 @@ bool Board::TwoOnRow(std::pair<int, int> &PositionToClose, int board, int player
 	return false;
 }
 
-bool Board::TwoOnColumn(std::pair<int, int> &PositionToClose, int board, int player) {
+bool Board::twoOnColumn(const int board, const int player, std::pair<int, int> &PositionToClose) const {
 
 	int i, j;
 	int count;
@@ -88,7 +88,7 @@ bool Board::TwoOnColumn(std::pair<int, int> &PositionToClose, int board, int pla
 	return false;
 }
 
-bool Board::TwoOnFirstDiagonal(std::pair<int, int> &PositionToClose, int board, int player) {
+bool Board::twoOnFirstDiagonal(const int board, const int player, std::pair<int, int> &PositionToClose) const {
 
 	int position = Position::getPosition(board, 0, 0);
 	int count = 0;
@@ -115,7 +115,7 @@ bool Board::TwoOnFirstDiagonal(std::pair<int, int> &PositionToClose, int board, 
 	}
 }
 
-bool Board::TwoOnSecondDiagonal(std::pair<int,int> &PositionToClose, int board, int player) {
+bool Board::twoOnSecondDiagonal(const int board, const int player, std::pair<int, int> &PositionToClose) const {
 
 	int position = Position::getPosition(board, 0, 2);
 	int count = 0;
@@ -153,12 +153,12 @@ bool Board::TwoOnSecondDiagonal(std::pair<int,int> &PositionToClose, int board, 
 	}
 }
 
-bool Board::CheckIfPlayerCanClose(std::pair<int,int> &PositionToClose, int board, int player) {
+bool Board::getClosingPositions(const int board, const int player, std::pair<int, int> &PositionToClose) const {
 
-	if (TwoOnRow(PositionToClose, board, player) == false && 
-		TwoOnColumn(PositionToClose, board, player) == false && 
-		TwoOnFirstDiagonal(PositionToClose, board, player) == false && 
-		TwoOnSecondDiagonal(PositionToClose, board, player) == false) {
+	if (twoOnRow(board, player, PositionToClose) == false &&
+		twoOnColumn(board, player, PositionToClose) == false &&
+		twoOnFirstDiagonal(board, player, PositionToClose) == false &&
+		twoOnSecondDiagonal(board, player, PositionToClose) == false) {
 			return false;
 	}
 
@@ -166,7 +166,7 @@ bool Board::CheckIfPlayerCanClose(std::pair<int,int> &PositionToClose, int board
 
 }
 
-int Board::PositionToBoard(int value) {
+int Board::getBoard(const int value) const{
 
 	int line = value / 9;
 	int col = value % 9;
@@ -187,7 +187,7 @@ int Board::PositionToBoard(int value) {
 	return number;
 }
 
-std::vector<int> Board::empty_positions(int board) {
+std::vector<int> Board::getEmptyPositions(const int board) {
 
 	int i, j;
 	std::vector<int> empty_pos;
