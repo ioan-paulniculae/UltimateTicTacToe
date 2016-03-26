@@ -12,7 +12,7 @@ public:
 	std::vector<int> getEmptyPositions(const int board);
 	~Board();
 private:
-	std::vector<int>_fied;
+	std::vector<int>_field;
 	std::vector<int>_macroboard;
 	bool twoOnRow(const int board, int player, std::pair<int, int> &PositionToClose) const;
 	bool twoOnColumn(const int board, const int player, std::pair<int, int> &PositionToClose) const;
