@@ -25,7 +25,7 @@ bool Board::EmptyBoard(std::vector<int> &s, int board) {
 	return true;
 }
 
-bool Board::TwoOnRow(std::pair<int, int> &PositionToClose, std::vector<int> &s, int board, int player) {
+bool Board::TwoOnRow(const std::vector<int> &macroboard, const int board, const int player, std::pair<int, int> &PositionToClose) {
 
 	int i, j;
 	int count;
@@ -34,11 +34,11 @@ bool Board::TwoOnRow(std::pair<int, int> &PositionToClose, std::vector<int> &s, 
 		count = 0;
 		for (j = 0; j < 3; ++j) {
 			int position = Position::getPosition(board, i, j);
-			if (s[position] == player) {
+			if (macroboard[position] == player) {
 				count++;
 			}
 			else {
-				if (s[position] == 0) {
+				if (macroboard[position] == 0) {
 					PositionToClose.first = i;
 					PositionToClose.second = j;
 				}
@@ -53,7 +53,7 @@ bool Board::TwoOnRow(std::pair<int, int> &PositionToClose, std::vector<int> &s, 
 	return false;
 }
 
-bool Board::TwoOnColumn(std::pair<int, int> &PositionToClose, std::vector<int> &s, int board, int player) {
+bool Board::TwoOnColumn(const std::vector<int> &macroboard, const int board, const int player, std::pair<int, int> &PositionToClose) {
 
 	int i, j;
 	int count;
@@ -62,11 +62,11 @@ bool Board::TwoOnColumn(std::pair<int, int> &PositionToClose, std::vector<int> &
 		count = 0;
 		for (i = 0; i < 3; ++i) {
 			int position = Position::getPosition(board, i, j);
-			if (s[position] == player) {
+			if (macroboard[position] == player) {
 				count++;
 			}
 			else {
-				if (s[position] == 0) {
+				if (macroboard[position] == 0) {
 					PositionToClose.first = i;
 					PositionToClose.second = j;
 				}
@@ -81,17 +81,17 @@ bool Board::TwoOnColumn(std::pair<int, int> &PositionToClose, std::vector<int> &
 	return false;
 }
 
-bool Board::TwoOnFirstDiagonal(std::pair<int, int> &PositionToClose, std::vector<int> &s, int board, int player) {
+bool Board::TwoOnFirstDiagonal(const std::vector<int> &macroboard, const int board, const int player, std::pair<int, int> &PositionToClose) {
 
 	int position = Position::getPosition(board, 0, 0);
 	int count = 0;
 
 	for (int i = 0; i < 3; ++i) {
-		if (s[position + 10 * i] == player) {
+		if (macroboard[position + 10 * i] == player) {
 			count++; 
 		}
 		else {
-			if (s[position + 10 * i] == 0) {
+			if (macroboard[position + 10 * i] == 0) {
 				PositionToClose.first = i;
 				PositionToClose.second = i;
 			}
@@ -108,17 +108,17 @@ bool Board::TwoOnFirstDiagonal(std::pair<int, int> &PositionToClose, std::vector
 	}
 }
 
-bool Board::TwoOnSecondDiagonal(std::pair<int,int> &PositionToClose, std::vector<int> &s, int board, int player) {
+bool Board::TwoOnSecondDiagonal(const std::vector<int> &macroboard, const int board, const int player, std::pair<int, int> &PositionToClose) {
 
 	int position = Position::getPosition(board, 0, 2);
 	int count = 0;
 
 	for (int i = 0; i < 3; ++i) {
-		if (s[position + 8*i] == player) {
+		if (macroboard[position + 8*i] == player) {
 			count++;
 		}
 		else {
-			if (s[position + 8 * i] == player) {
+			if (macroboard[position + 8 * i] == player) {
 				if (i == 0) {
 					PositionToClose.first = i;
 					PositionToClose.second = 2;
@@ -146,12 +146,12 @@ bool Board::TwoOnSecondDiagonal(std::pair<int,int> &PositionToClose, std::vector
 	}
 }
 
-bool Board::CheckIfPlayerCanClose(std::pair<int,int> &PositionToClose, std::vector<int> &s, int board, int player) {
+bool Board::CheckIfPlayerCanClose(const std::vector<int> &macroboard, const int board, const int player, std::pair<int, int> &PositionToClose) {
 
-	if (TwoOnRow(PositionToClose, s, board, player) == false && 
-		TwoOnColumn(PositionToClose, s, board, player) == false && 
-		TwoOnFirstDiagonal(PositionToClose, s, board, player) == false && 
-		TwoOnSecondDiagonal(PositionToClose, s, board, player) == false) {
+	if (TwoOnRow(macroboard, board, player, PositionToClose) == false && 
+		TwoOnColumn(macroboard, board, player, PositionToClose) == false &&
+		TwoOnFirstDiagonal(macroboard, board, player, PositionToClose) == false &&
+		TwoOnSecondDiagonal(macroboard, board, player, PositionToClose) == false) {
 			return false;
 	}
 
