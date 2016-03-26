@@ -1,4 +1,9 @@
 //teo
-refactor board methods
+refactor board methods Done
+modify getClosingPositions to return without duplicates
 
 
+//alex
+getCurrentPlayingBoards
+//scaneaza vectoru de boards si adaunga intr-un container 
+//boardurile care sunt -1
