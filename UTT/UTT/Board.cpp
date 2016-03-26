@@ -4,18 +4,24 @@
 #include <string>
 #include <vector>
 
-bool Board::EmptyBoard(std::vector<int> &s, int board) {
+Board::Board(std::vector<int>& field, std::vector<int>& macroboard)
+{
+	_fied = field;
+	_macroboard = macroboard;
+}
+
+bool Board::EmptyBoard(int board) {
 
 	int x = Position::startingPosition[board];
 	int i, j;
-
+	int pos;
 
 	for (i = 0; i < 3; ++i) {
 		for (j = 0; j < 3; ++j) {
 
-			const int pos = Position::getPosition(board, i, j);
+			pos = Position::getPosition(board, i, j);
 
-			if (s[pos] != 0) {
+			if (_macroboard[pos] != 0) {
 				return false;
 			}
 
@@ -25,20 +31,21 @@ bool Board::EmptyBoard(std::vector<int> &s, int board) {
 	return true;
 }
 
-bool Board::TwoOnRow(std::pair<int, int> &PositionToClose, std::vector<int> &s, int board, int player) {
+bool Board::TwoOnRow(std::pair<int, int> &PositionToClose, int board, int player) {
 
 	int i, j;
 	int count;
+	int position;
 
 	for (i = 0; i < 3; ++i) {
 		count = 0;
 		for (j = 0; j < 3; ++j) {
-			int position = Position::getPosition(board, i, j);
-			if (s[position] == player) {
+			position = Position::getPosition(board, i, j);
+			if (_macroboard[position] == player) {
 				count++;
 			}
 			else {
-				if (s[position] == 0) {
+				if (_macroboard[position] == 0) {
 					PositionToClose.first = i;
 					PositionToClose.second = j;
 				}
@@ -53,7 +60,7 @@ bool Board::TwoOnRow(std::pair<int, int> &PositionToClose, std::vector<int> &s, 
 	return false;
 }
 
-bool Board::TwoOnColumn(std::pair<int, int> &PositionToClose, std::vector<int> &s, int board, int player) {
+bool Board::TwoOnColumn(std::pair<int, int> &PositionToClose, int board, int player) {
 
 	int i, j;
 	int count;
@@ -62,11 +69,11 @@ bool Board::TwoOnColumn(std::pair<int, int> &PositionToClose, std::vector<int> &
 		count = 0;
 		for (i = 0; i < 3; ++i) {
 			int position = Position::getPosition(board, i, j);
-			if (s[position] == player) {
+			if (_macroboard[position] == player) {
 				count++;
 			}
 			else {
-				if (s[position] == 0) {
+				if (_macroboard[position] == 0) {
 					PositionToClose.first = i;
 					PositionToClose.second = j;
 				}
@@ -81,17 +88,17 @@ bool Board::TwoOnColumn(std::pair<int, int> &PositionToClose, std::vector<int> &
 	return false;
 }
 
-bool Board::TwoOnFirstDiagonal(std::pair<int, int> &PositionToClose, std::vector<int> &s, int board, int player) {
+bool Board::TwoOnFirstDiagonal(std::pair<int, int> &PositionToClose, int board, int player) {
 
 	int position = Position::getPosition(board, 0, 0);
 	int count = 0;
 
 	for (int i = 0; i < 3; ++i) {
-		if (s[position + 10 * i] == player) {
+		if (_macroboard[position + 10 * i] == player) {
 			count++; 
 		}
 		else {
-			if (s[position + 10 * i] == 0) {
+			if (_macroboard[position + 10 * i] == 0) {
 				PositionToClose.first = i;
 				PositionToClose.second = i;
 			}
@@ -108,17 +115,17 @@ bool Board::TwoOnFirstDiagonal(std::pair<int, int> &PositionToClose, std::vector
 	}
 }
 
-bool Board::TwoOnSecondDiagonal(std::pair<int,int> &PositionToClose, std::vector<int> &s, int board, int player) {
+bool Board::TwoOnSecondDiagonal(std::pair<int,int> &PositionToClose, int board, int player) {
 
 	int position = Position::getPosition(board, 0, 2);
 	int count = 0;
 
 	for (int i = 0; i < 3; ++i) {
-		if (s[position + 8*i] == player) {
+		if (_macroboard[position + 8 * i] == player) {
 			count++;
 		}
 		else {
-			if (s[position + 8 * i] == player) {
+			if (_macroboard[position + 8 * i] == player) {
 				if (i == 0) {
 					PositionToClose.first = i;
 					PositionToClose.second = 2;
@@ -146,12 +153,12 @@ bool Board::TwoOnSecondDiagonal(std::pair<int,int> &PositionToClose, std::vector
 	}
 }
 
-bool Board::CheckIfPlayerCanClose(std::pair<int,int> &PositionToClose, std::vector<int> &s, int board, int player) {
+bool Board::CheckIfPlayerCanClose(std::pair<int,int> &PositionToClose, int board, int player) {
 
-	if (TwoOnRow(PositionToClose, s, board, player) == false && 
-		TwoOnColumn(PositionToClose, s, board, player) == false && 
-		TwoOnFirstDiagonal(PositionToClose, s, board, player) == false && 
-		TwoOnSecondDiagonal(PositionToClose, s, board, player) == false) {
+	if (TwoOnRow(PositionToClose, board, player) == false && 
+		TwoOnColumn(PositionToClose, board, player) == false && 
+		TwoOnFirstDiagonal(PositionToClose, board, player) == false && 
+		TwoOnSecondDiagonal(PositionToClose, board, player) == false) {
 			return false;
 	}
 
@@ -180,7 +187,7 @@ int Board::PositionToBoard(int value) {
 	return number;
 }
 
-std::vector<int> Board::empty_positions(std::vector<int> &s, int board) {
+std::vector<int> Board::empty_positions(int board) {
 
 	int i, j;
 	std::vector<int> empty_pos;
@@ -190,10 +197,9 @@ std::vector<int> Board::empty_positions(std::vector<int> &s, int board) {
 
 			int start = Position::getPosition(board, i, j);
 
-			if (s[start] == 0) {
+			if (_macroboard[start] == 0) {
 				empty_pos.push_back(start);
 			}
-
 		}
 	}
 
