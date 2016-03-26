@@ -154,9 +154,9 @@ bool Board::CheckIfPlayerCanClose(std::pair<int,int> &PositionToClose, std::vect
 		TwoOnSecondDiagonal(PositionToClose, s, board, player) == false) {
 			return false;
 	}
-	else {
-		return true;
-	}
+
+	return true;
+
 }
 
 int Board::PositionToBoard(int value) {
