@@ -39,6 +39,8 @@ void BotIO::loop() {
 std::pair<int, int> BotIO::action(const std::string &type, int time) {
 
 	Board board(_field, _macroboard);
+	std::set <std::pair<int, int> > test;
+	board.getClosingPositions(0, getBotId(), test);
 	return getRandomFreeCell();
 }
 
