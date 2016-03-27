@@ -22,9 +22,6 @@ namespace UTTT {
 			// dynamic settings
 			int _round;
 			int _move;
-			std::vector<int> _macroboard;
-			std::vector<int> _field;
-
 
 			//Implement this function.
 			//type is always "move"

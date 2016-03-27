@@ -8,8 +8,6 @@ using namespace UTTT::Core;
 //Bot initialization.
 BotIO::BotIO() {
 	srand(static_cast<unsigned int>(time(0)));
-	_field.resize(81);
-	_macroboard.resize(9);
 }
 
 
@@ -39,15 +37,14 @@ void BotIO::loop() {
 	
 std::pair<int, int> BotIO::action(const std::string &type, int time) {
 
-	Board board(_field, _macroboard);
 	std::vector<int> playingBoards;
 	std::set<std::pair<int, int> > positions;
 	std::vector<std::pair<int, int> > pos;
-	board.getCurrentPlayingBoards(playingBoards);
+	Board::getCurrentPlayingBoards(playingBoards);
 
 	for (auto b : playingBoards)
 	{
-		if (board.getClosingPositions(b, getBotId(), positions))//if i can close
+		if (Board::getClosingPositions(b, getBotId(), positions))//if i can close
 		{
 			for (auto& position : positions)
 			{
@@ -55,7 +52,7 @@ std::pair<int, int> BotIO::action(const std::string &type, int time) {
 				//get best closing position
 			}
 		}
-		if (board.getClosingPositions(b, getOponentId(), positions))//if opponent can close
+		if (Board::getClosingPositions(b, getOponentId(), positions))//if opponent can close
 		{
 			//To Do Paul
 			//block best opponents game
@@ -74,7 +71,7 @@ std::pair<int, int> BotIO::action(const std::string &type, int time) {
 		//select from the empty spaces the positions
 		//that send the oponent to a game where he cannot close(0 or 1 on same row/column/diagonal)
 		//chose the best one from them:
-		if (board.throwOpponentNoAdvantage(b, getOponentId(), pos))
+		if (Board::throwOpponentNoAdvantage(b, getOponentId(), pos))
 		{
 			for (auto& bestPosition : pos)
 			{
@@ -94,7 +91,7 @@ std::pair<int, int> BotIO::getRandomFreeCell() const {
 	std::vector<int> freeCells;
 	for (int i = 0; i < 81; ++i) {
 		int blockId = ((i / 27) * 3) + (i % 9) / 3;
-		if (_macroboard[blockId] == -1 && _field[i] == 0) {
+		if (Board::_macroboard[blockId] == -1 && Board::_field[i] == 0) {
 			freeCells.push_back(i);
 		}
 	}
@@ -133,7 +130,7 @@ void BotIO::update(const std::string& player, const std::string& type, const std
 	else if (type == "macroboard" || type == "field") {
 		std::vector<std::string> rawValues;
 		Utility::split(value, ',', rawValues);
-		std::vector<int>::iterator choice = (type == "field" ? _field.begin() : _macroboard.begin());
+		std::vector<int>::iterator choice = (type == "field" ? Board::_field.begin() : Board::_macroboard.begin());
 		std::transform(rawValues.begin(), rawValues.end(), choice, Utility::stringToInt);
 	}
 	else {

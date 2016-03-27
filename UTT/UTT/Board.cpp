@@ -5,15 +5,11 @@
 #include <cassert>
 #include <vector>
 #include <set>
-#include <ctime>
 
-Board::Board(std::vector<int>& field, std::vector<int>& macroboard)
-{
-	_field = field;
-	_macroboard = macroboard;
-}
+std::vector<int> Board::_field = std::vector<int>(81, 0);
+std::vector<int> Board::_macroboard = std::vector<int>(9, 0);
 
-bool Board::isEmpty(const int board) const {
+bool Board::isEmpty(const int board) {
 
 	int x = Position::startingPosition[board];
 	int i, j;
@@ -33,7 +29,7 @@ bool Board::isEmpty(const int board) const {
 	return true;
 }
 
-void Board::addIfThree(const int player, const int first, const int second, const int third, std::vector<std::pair<int, int> >& positionToClose) const
+void Board::addIfThree(const int player, const int first, const int second, const int third, std::vector<std::pair<int, int> >& positionToClose)
 {
 	std::pair<int, int> closingPosition;
 	if (!(_field[first] == player) &&
@@ -64,7 +60,7 @@ void Board::addIfThree(const int player, const int first, const int second, cons
 	}
 }
 
-void Board::twoOnRow(const int board, const int player, const int row, std::vector< std::pair<int, int> > &PositionToClose) const {
+void Board::twoOnRow(const int board, const int player, const int row, std::vector< std::pair<int, int> > &PositionToClose) {
 
 	int first = Position::getPosition(board, row, 0);
 	int second = Position::getPosition(board, row, 1);
@@ -73,7 +69,7 @@ void Board::twoOnRow(const int board, const int player, const int row, std::vect
 	addIfThree(player, first, second, third, PositionToClose);
 }
 
-void Board::twoOnColumn(const int board, const int player, const int column, std::vector< std::pair<int, int> > &PositionToClose) const {
+void Board::twoOnColumn(const int board, const int player, const int column, std::vector< std::pair<int, int> > &PositionToClose) {
 
 	int first = Position::getPosition(board, 0, column);
 	int second = Position::getPosition(board, 1, column);
@@ -82,7 +78,7 @@ void Board::twoOnColumn(const int board, const int player, const int column, std
 	addIfThree(player, first, second, third, PositionToClose);
 }
 
-void Board::twoOnFirstDiagonal(const int board, const int player, std::vector< std::pair<int, int> > &PositionToClose) const {
+void Board::twoOnFirstDiagonal(const int board, const int player, std::vector< std::pair<int, int> > &PositionToClose) {
 	int first = Position::getPosition(board, 0, 0);
 	int second = Position::getPosition(board, 1, 1);
 	int third = Position::getPosition(board, 2, 2);
@@ -90,7 +86,7 @@ void Board::twoOnFirstDiagonal(const int board, const int player, std::vector< s
 	addIfThree(player, first, second, third, PositionToClose);
 }
 
-void Board::twoOnSecondDiagonal(const int board, const int player, std::vector< std::pair<int, int> > &PositionToClose) const {
+void Board::twoOnSecondDiagonal(const int board, const int player, std::vector< std::pair<int, int> > &PositionToClose) {
 
 	int first = Position::getPosition(board, 0, 2);
 	int second = Position::getPosition(board, 1, 1);
@@ -102,7 +98,7 @@ void Board::twoOnSecondDiagonal(const int board, const int player, std::vector< 
 
 bool Board::getClosingPositions(const int board,
 								const int player,
-								std::set< std::pair<int, int> > &allPositionsToClose) const {
+								std::set< std::pair<int, int> > &allPositionsToClose) {
 
 	if (_macroboard[board] != 0)
 	{
@@ -129,7 +125,7 @@ bool Board::getClosingPositions(const int board,
 	return false;
 }
 
-int Board::getBoard(const int value) const{
+int Board::getBoard(const int value){
 
 	int line = value / 9;
 	int col = value % 9;
@@ -150,7 +146,7 @@ int Board::getBoard(const int value) const{
 	return number;
 }
 
-void Board::getEmptyPositions(const int board, std::vector<std::pair<int, int> > &emptyPositions) const{
+void Board::getEmptyPositions(const int board, std::vector<std::pair<int, int> > &emptyPositions){
 
 	int i, j;
 	int start;
@@ -166,7 +162,7 @@ void Board::getEmptyPositions(const int board, std::vector<std::pair<int, int> >
 	}
 }
 
-void Board::getCurrentPlayingBoards(std::vector<int> &playingBoards) const{
+void Board::getCurrentPlayingBoards(std::vector<int> &playingBoards){
 
 	for (int i = 0; i < 9; ++i) {
 		if (_macroboard[i] == -1)
@@ -177,7 +173,7 @@ void Board::getCurrentPlayingBoards(std::vector<int> &playingBoards) const{
 
 }
 
-bool Board::throwOpponentNoAdvantage(int board, const int opponent, std::vector<std::pair<int, int> >& possibleClosingPossitions) const {
+bool Board::throwOpponentNoAdvantage(int board, const int opponent, std::vector<std::pair<int, int> >& possibleClosingPossitions) {
 
 	assert(0 <= board && board < 9);
 	assert(1 <= opponent && opponent <= 2);
@@ -185,12 +181,9 @@ bool Board::throwOpponentNoAdvantage(int board, const int opponent, std::vector<
 	int newboard;
 	std::vector<std::pair<int, int> > emptyPositions;
 	std::set< std::pair <int, int> > closingPositions;
-	
-	//getCurrentPlayingBoards(getPlayingBoards);
+
 	getEmptyPositions(board, emptyPositions);
-	//mai bine, nu faci AICI pt fiecare board, aici faci doar pt boardu B, ala primit ca parametru
-	//intra si tu pe skype 5 minute nu mai mult ca sa iti zicem
-	//da sunt, puteti suna :))
+
 	for (auto& emptyPos : emptyPositions)
 	{
 		// complematam cu metoda paul
