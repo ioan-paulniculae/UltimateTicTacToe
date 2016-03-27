@@ -188,9 +188,7 @@ bool Board::throwOpponentNoAdvantage(int board, const int opponent, std::vector<
 	
 	//getCurrentPlayingBoards(getPlayingBoards);
 	getEmptyPositions(board, emptyPositions);
-	//mai bine, nu faci AICI pt fiecare board, aici faci doar pt boardu B, ala primit ca parametru
-	//intra si tu pe skype 5 minute nu mai mult ca sa iti zicem
-	//da sunt, puteti suna :))
+
 	for (auto& emptyPos : emptyPositions)
 	{
 		// complematam cu metoda paul

@@ -24,13 +24,19 @@ int UTTT::Core::Utility::stringToInt(const std::string & s)
 	return result;
 }
 
-std::pair<int, int> UTTT::Core::Utility::closeGame(const int board, const int myself, const std::set<std::pair<int, int>>& possibleClosingPositions)
+std::pair<int, int> UTTT::Core::Utility::closeGame(const std::vector<int> macroboard, const int board, const int myself, const std::set<std::pair<int, int>>& possibleClosingPositions)
 {
 	std::priority_queue<std::pair<int, int> > que;
+	int nextPlayingBoard;
+	for (auto& closingPosition : possibleClosingPositions)
+	{
+		nextPlayingBoard = Position::nextBoard(macroboard, closingPosition);
+		
+	}
 
 }
 
-std::pair<int, int> UTTT::Core::Utility::blockGame(const int board, const int opponent, const std::set<std::pair<int, int>>& possibleClosingPositions)
+std::pair<int, int> UTTT::Core::Utility::blockGame(const std::vector<int> macroboard, const int board, const int opponent, const std::set<std::pair<int, int>>& possibleClosingPositions)
 {
 	return std::pair<int, int>();
 }
