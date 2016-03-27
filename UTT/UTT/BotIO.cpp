@@ -42,6 +42,7 @@ std::pair<int, int> BotIO::action(const std::string &type, int time) {
 	Board board(_field, _macroboard);
 	std::vector<int> playingBoards;
 	std::set<std::pair<int, int> > positions;
+	std::vector<std::pair<int, int> > pos;
 	board.getCurrentPlayingBoards(playingBoards);
 
 	for (auto b : playingBoards)
@@ -73,6 +74,14 @@ std::pair<int, int> BotIO::action(const std::string &type, int time) {
 		//select from the empty spaces the positions
 		//that send the oponent to a game where he cannot close(0 or 1 on same row/column/diagonal)
 		//chose the best one from them:
+		if (board.throwOpponentNoAdvantage(b, getOponentId(), pos))
+		{
+			for (auto& bestPosition : pos)
+			{
+				//return best;
+			}
+		}
+
 
 
 	}
