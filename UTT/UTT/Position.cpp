@@ -14,7 +14,7 @@ int Position::getPosition(const int board, const int i, const int j)
 	return startingPosition[board] + 9 * i + j % 3;
 }
 
-void Position::setPosition(std::vector<int>& macroboard,const int board, const int i, const int j, const int player)
+void Position::setPosition(std::vector<int>& macroboard, const int board, const int i, const int j, const int player)
 {
 
 	int position = getPosition(board, i, j);
@@ -28,5 +28,23 @@ std::pair<int, int> Position::getMatrixPosition(const int value) {
 	int y = value - 9 * x;
 	return std::make_pair(x, y);
 
+}
+
+int Position::nextBoard(const std::vector<int>& macroboard, const std::pair<int, int>& move)
+{
+	return nextBoard(macroboard, move.first, move.second);
+}
+
+int Position::nextBoard(const std::vector<int>& macroboard, const int i, const int j)
+{
+	assert(i <= 0);
+	assert(i > 3);
+
+	assert(j <= 0);
+	assert(j > 3);
+
+	int nextBoard = 3 * i + j;
+
+	return macroboard[nextBoard] == 0 ? nextBoard : -1;
 }
 
