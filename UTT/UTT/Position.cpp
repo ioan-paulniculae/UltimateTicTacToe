@@ -38,22 +38,22 @@ int Position::nextBoard(const std::pair<int, int>& move)
 
 int Position::nextBoard(const int i, const int j)
 {
-	assert(i <= 0);
-	assert(i > 3);
+	assert(i >= 0);
+	assert(i < 3);
 
-	assert(j <= 0);
-	assert(j > 3);
+	assert(j >= 0);
+	assert(j < 3);
 
 	int nextBoard = 3 * i + j;
 
-	return Board::_macroboard[nextBoard] == 0 ? nextBoard : -1;
+	return Board::isClosed(nextBoard)? -1 : nextBoard;
 }
 
 std::pair<int, int> Position::getMatrixPosition(const int board, const std::pair<int, int> relativePosition) {
 
 	int position = getPosition(board, relativePosition.first, relativePosition.second);
-	int x = position / 9;
-	int y = position - 9 * x;
+	int y = position / 9;
+	int x = position - 9 * y;
 	return std::make_pair(x, y);
 
 }

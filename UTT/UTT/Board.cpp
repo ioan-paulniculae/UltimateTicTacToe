@@ -20,13 +20,19 @@ bool Board::isEmpty(const int board) {
 
 			pos = Position::getPosition(board, i, j);
 
-			if (_macroboard[pos] != 0) {
+			if (_field[pos] != 0) {
 				return false;
 			}
 		}
 	}
 
 	return true;
+}
+
+bool Board::isClosed(const int board)
+{
+	return !(Board::_macroboard[board] == 0 ||
+		   Board::_macroboard[board] == -1);
 }
 
 void Board::addIfThree(const int player, const int first, const int second, const int third, std::vector<std::pair<int, int> >& positionToClose)
@@ -100,10 +106,6 @@ bool Board::getClosingPositions(const int board,
 								const int player,
 								std::set< std::pair<int, int> > &allPositionsToClose) {
 
-	if (_macroboard[board] != 0)
-	{
-		return false;
-	}
 	std::vector< std::pair<int, int> > PositionToClose;
 
 	twoOnRow(board, player, 0, PositionToClose);

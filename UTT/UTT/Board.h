@@ -8,7 +8,7 @@ public:
 	static std::vector<int>_field;
 	static std::vector<int>_macroboard;
 	static bool isEmpty(const int board);
-
+	static bool isClosed(const int board);
 	//returns all unique closing positions in the board for the player
 	//the positions are relative to the game NOT to the board
 	static bool getClosingPositions(const int board, const int player, std::set< std::pair<int, int> > &allPositionsToClose);

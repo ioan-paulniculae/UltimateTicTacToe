@@ -46,16 +46,11 @@ std::pair<int, int> BotIO::action(const std::string &type, int time) {
 	{
 		if (Board::getClosingPositions(b, getBotId(), positions))//if i can close
 		{
-			for (auto& position : positions)
-			{
-				//TO DO Paul
-				//get best closing position
-			}
+			return Utility::closeGame(b, getOponentId(), positions);
 		}
 		if (Board::getClosingPositions(b, getOponentId(), positions))//if opponent can close
 		{
-			//To Do Paul
-			//block best opponents game
+			return Utility::blockGame(b, getOponentId(), positions);//block the fucker
 		}
 		//to do: ALL
 		//minimax 
@@ -67,10 +62,6 @@ std::pair<int, int> BotIO::action(const std::string &type, int time) {
 		//else, return false
 
 
-		//to do: Alexandru + Theo
-		//select from the empty spaces the positions
-		//that send the oponent to a game where he cannot close(0 or 1 on same row/column/diagonal)
-		//chose the best one from them:
 		if (Board::throwOpponentNoAdvantage(b, getOponentId(), pos))
 		{
 			for (auto& bestPosition : pos)
@@ -78,9 +69,6 @@ std::pair<int, int> BotIO::action(const std::string &type, int time) {
 				//return best;
 			}
 		}
-
-
-
 	}
 
 	return getRandomFreeCell();
