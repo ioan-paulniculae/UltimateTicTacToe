@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Position.h"
+#include "Board.h"
 #include <cassert>
 
 const std::vector<int> Position::startingPosition = { 0, 3, 6, 27, 30, 33, 54, 57, 60};
@@ -14,11 +15,11 @@ int Position::getPosition(const int board, const int i, const int j)
 	return startingPosition[board] + 9 * i + j % 3;
 }
 
-void Position::setPosition(std::vector<int>& macroboard, const int board, const int i, const int j, const int player)
+void Position::setPosition(const int board, const int i, const int j, const int player)
 {
 
 	int position = getPosition(board, i, j);
-	macroboard[position] = player;
+	Board::_macroboard[position] = player;
 }
 
 std::pair<int, int> Position::getMatrixPosition(const int value) {
@@ -30,12 +31,12 @@ std::pair<int, int> Position::getMatrixPosition(const int value) {
 
 }
 
-int Position::nextBoard(const std::vector<int>& macroboard, const std::pair<int, int>& move)
+int Position::nextBoard(const std::pair<int, int>& move)
 {
-	return nextBoard(macroboard, move.first, move.second);
+	return nextBoard(move.first, move.second);
 }
 
-int Position::nextBoard(const std::vector<int>& macroboard, const int i, const int j)
+int Position::nextBoard(const int i, const int j)
 {
 	assert(i <= 0);
 	assert(i > 3);
@@ -45,7 +46,7 @@ int Position::nextBoard(const std::vector<int>& macroboard, const int i, const i
 
 	int nextBoard = 3 * i + j;
 
-	return macroboard[nextBoard] == 0 ? nextBoard : -1;
+	return Board::_macroboard[nextBoard] == 0 ? nextBoard : -1;
 }
 
 std::pair<int, int> Position::getMatrixPosition(const int board, const std::pair<int, int> relativePosition) {
