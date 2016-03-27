@@ -1,5 +1,8 @@
 #include "stdafx.h"
 #include "Utility.h"
+#include <queue>
+#include <vector>
+
 using namespace UTTT::Core;
 
 std::vector<std::string>& Utility::split(const std::string &s, char delim, std::vector<std::string> &elems)
@@ -21,3 +24,13 @@ int UTTT::Core::Utility::stringToInt(const std::string & s)
 	return result;
 }
 
+std::pair<int, int> UTTT::Core::Utility::closeGame(const int board, const int myself, const std::set<std::pair<int, int>>& possibleClosingPositions)
+{
+	std::priority_queue<std::pair<int, int> > que;
+
+}
+
+std::pair<int, int> UTTT::Core::Utility::blockGame(const int board, const int opponent, const std::set<std::pair<int, int>>& possibleClosingPositions)
+{
+	return std::pair<int, int>();
+}
