@@ -20,7 +20,8 @@ public:
 	//the positions are absolute
 	void getEmptyPositions(const int board, std::vector<int> &emptyPositions) const;
 	void getCurrentPlayingBoards(std::vector<int>& playing_boards) const;
-	
+	void Board::throwOpponent(const int board, const int player);
+
 	~Board();
 private:
 	std::vector<int>_field;

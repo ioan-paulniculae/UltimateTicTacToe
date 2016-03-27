@@ -172,6 +172,48 @@ void Board::getCurrentPlayingBoards(std::vector<int> &playingBoards) const{
 
 }
 
+void Board::throwOpponent(const int board, const int player) {
+
+	assert(0 <= board && board < 9);
+	assert(0 < player && player < 2);
+
+	std::vector<int> emptyPositions;
+	std::set< std::pair <int, int> > closingPositions;
+	std::vector<int> getPlayingBoards;
+
+	getCurrentPlayingBoards(getPlayingBoards);
+	getEmptyPositions(board, emptyPositions);
+
+	int position = Position::getPosition(board, 0, 0);
+	int line, columnaluitraian, newboard;
+	int opponent;
+
+	if (player == 1)
+		opponent = 2;
+	else
+		opponent = 1;
+
+	for (int i = 0; i < emptyPositions.size(); ++i) {
+
+		line = (emptyPositions[i] - position) / 9;
+		columnaluitraian = emptyPositions[i] % 3;
+
+		newboard = 3 * line + columnaluitraian;
+
+		
+		if (getClosingPositions(newboard, opponent, closingPositions) == false) {
+
+		}
+
+
+	}
+
+
+
+
+
+}
+
 Board::Board()
 {
 }
