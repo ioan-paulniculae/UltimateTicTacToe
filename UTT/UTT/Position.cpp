@@ -30,3 +30,12 @@ std::pair<int, int> Position::getMatrixPosition(const int value) {
 
 }
 
+std::pair<int, int> Position::getMatrixPosition(const int board, const std::pair<int, int> relativePosition) {
+
+	int position = getPosition(board, relativePosition.first, relativePosition.second);
+	int x = position / 9;
+	int y = position - 9 * x;
+	return std::make_pair(x, y);
+
+}
+

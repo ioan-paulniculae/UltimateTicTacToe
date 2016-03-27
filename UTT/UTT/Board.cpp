@@ -5,6 +5,7 @@
 #include <cassert>
 #include <vector>
 #include <set>
+#include <ctime>
 
 Board::Board(std::vector<int>& field, std::vector<int>& macroboard)
 {
@@ -103,6 +104,10 @@ bool Board::getClosingPositions(const int board,
 								const int player,
 								std::set< std::pair<int, int> > &allPositionsToClose) const {
 
+	if (_macroboard[board] != 0)
+	{
+		return false;
+	}
 	std::vector< std::pair<int, int> > PositionToClose;
 
 	twoOnRow(board, player, 0, PositionToClose);
@@ -145,7 +150,7 @@ int Board::getBoard(const int value) const{
 	return number;
 }
 
-void Board::getEmptyPositions(const int board, std::vector<int> &emptyPositions) const{
+void Board::getEmptyPositions(const int board, std::vector<std::pair<int, int> > &emptyPositions) const{
 
 	int i, j;
 	int start;
@@ -155,7 +160,7 @@ void Board::getEmptyPositions(const int board, std::vector<int> &emptyPositions)
 			start = Position::getPosition(board, i, j);
 
 			if (_field[start] == 0) {
-				emptyPositions.push_back(start);
+				emptyPositions.push_back(std::make_pair(i, j));
 			}
 		}
 	}
@@ -172,45 +177,39 @@ void Board::getCurrentPlayingBoards(std::vector<int> &playingBoards) const{
 
 }
 
-void Board::throwOpponent(const int board, const int player) {
+bool Board::throwOpponentNoAdvantage(int board, const int opponent, std::vector<std::pair<int, int> >& possibleClosingPossitions) const {
 
 	assert(0 <= board && board < 9);
-	assert(0 < player && player < 2);
+	assert(1 <= opponent && opponent <= 2);
 
-	std::vector<int> emptyPositions;
+	int newboard;
+	std::vector<std::pair<int, int> > emptyPositions;
 	std::set< std::pair <int, int> > closingPositions;
-	std::vector<int> getPlayingBoards;
-
-	getCurrentPlayingBoards(getPlayingBoards);
+	
+	//getCurrentPlayingBoards(getPlayingBoards);
 	getEmptyPositions(board, emptyPositions);
-
-	int position = Position::getPosition(board, 0, 0);
-	int line, columnaluitraian, newboard;
-	int opponent;
-
-	if (player == 1)
-		opponent = 2;
-	else
-		opponent = 1;
-
-	for (int i = 0; i < emptyPositions.size(); ++i) {
-
-		line = (emptyPositions[i] - position) / 9;
-		columnaluitraian = emptyPositions[i] % 3;
-
-		newboard = 3 * line + columnaluitraian;
-
-		
-		if (getClosingPositions(newboard, opponent, closingPositions) == false) {
-
+	//mai bine, nu faci AICI pt fiecare board, aici faci doar pt boardu B, ala primit ca parametru
+	//intra si tu pe skype 5 minute nu mai mult ca sa iti zicem
+	//da sunt, puteti suna :))
+	for (auto& emptyPos : emptyPositions)
+	{
+		// complematam cu metoda paul
+		newboard = 3 * emptyPos.first + emptyPos.second;
+		if (_macroboard[newboard] == 0 &&
+			!getClosingPositions(newboard, opponent, closingPositions))
+		{
+			possibleClosingPossitions.push_back(Position::getMatrixPosition(board, emptyPos));
 		}
-
-
+		else
+		{
+			closingPositions.clear();
+		}
 	}
-
-
-
-
+	if (possibleClosingPossitions.size())
+	{
+		return true;
+	}
+	return false;
 
 }
 

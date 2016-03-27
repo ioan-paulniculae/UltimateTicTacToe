@@ -18,9 +18,9 @@ public:
 
 	//returns a container with all the empty positions in the board
 	//the positions are absolute
-	void getEmptyPositions(const int board, std::vector<int> &emptyPositions) const;
+	void getEmptyPositions(const int board, std::vector<std:: pair<int, int> > &emptyPositions) const;
 	void getCurrentPlayingBoards(std::vector<int>& playing_boards) const;
-	void Board::throwOpponent(const int board, const int player);
+	bool Board::throwOpponentNoAdvantage(int board, const int opponent, std::vector<std::pair<int, int> >& possibleClosingPossitions) const;
 
 	~Board();
 private:
