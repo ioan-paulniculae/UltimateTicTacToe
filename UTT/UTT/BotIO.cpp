@@ -70,7 +70,7 @@ std::pair<int, int> BotIO::action(const std::string &type, int time) {
 			}
 			else {
 				
-				return pos[rand() % (pos.size - 1) + 1];
+				return pos[rand() % (pos.size() - 1) + 1];
 			}
 		}
 	}

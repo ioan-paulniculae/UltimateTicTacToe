@@ -20,8 +20,8 @@ public:
 	//the positions are absolute
 	static void getEmptyPositions(const int board, std::vector<std:: pair<int, int> > &emptyPositions);
 	static void getCurrentPlayingBoards(std::vector<int>& playing_boards);
-	static bool Board::throwOpponentNoAdvantage(int board, const int opponent, std::vector<std::pair<int, int> >& possibleClosingPossitions);
-	static bool Board::throwOpponentInBlankGame(int board, const int opponent, std::vector<std::pair<int, int> >& possibleClosingPossitions);
+	static bool throwOpponentNoAdvantage(int board, const int opponent, std::vector<std::pair<int, int> >& possibleClosingPossitions);
+	static bool throwOpponentInBlankGame(int board, const int opponent, std::vector<std::pair<int, int> >& possibleClosingPossitions);
 
 	static std::pair<int, int> chooseBestPosition(std::pair<int, int> bestPosition, std::vector< std::pair<int,int> > blankPositions);
 	~Board();
