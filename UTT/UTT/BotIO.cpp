@@ -60,15 +60,6 @@ std::pair<int, int> BotIO::action(const std::string &type, int time) {
 		//to do: ALL
 		//minimax 
 
-		//to do: Calin
-		//if there exists:
-		//generate all positions that send the opponent to blank game
-		//and return true,
-		//else, return false
-
-		
-	
-
 		if (Board::throwOpponentNoAdvantage(b, getOponentId(), pos))
 		{
 			if (Board::throwOpponentInBlankGame(b, getOponentId(), blankPositions)) {
