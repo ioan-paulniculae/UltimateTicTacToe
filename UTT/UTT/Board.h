@@ -22,6 +22,8 @@ public:
 	static void getCurrentPlayingBoards(std::vector<int>& playing_boards);
 	static bool Board::throwOpponentNoAdvantage(int board, const int opponent, std::vector<std::pair<int, int> >& possibleClosingPossitions);
 	static bool Board::throwOpponentInBlankGame(int board, const int opponent, std::vector<std::pair<int, int> >& possibleClosingPossitions);
+
+	static std::pair<int, int> chooseBestPosition(std::pair<int, int> bestPosition, std::vector< std::pair<int,int> > blankPositions);
 	~Board();
 
 private:

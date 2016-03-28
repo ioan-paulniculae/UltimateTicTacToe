@@ -3,6 +3,10 @@
 #include "Utility.h"
 #include "Board.h"
 #include "Position.h"
+#include <ctime>
+#include <time.h>
+#include <random>
+
 using namespace UTTT::Core;
 
 //Bot initialization.
@@ -40,17 +44,18 @@ std::pair<int, int> BotIO::action(const std::string &type, int time) {
 	std::vector<int> playingBoards;
 	std::set<std::pair<int, int> > positions;
 	std::vector<std::pair<int, int> > pos;
+	std::vector < std::pair<int, int> > blankPositions;
 	Board::getCurrentPlayingBoards(playingBoards);
 
 	for (auto b : playingBoards)
 	{
 		if (Board::getClosingPositions(b, getBotId(), positions))//if i can close
 		{
-			return Utility::closeGame(b, getOponentId(), positions);
+		//	return Utility::closeGame(b, getOponentId(), positions);
 		}
 		if (Board::getClosingPositions(b, getOponentId(), positions))//if opponent can close
 		{
-			return Utility::blockGame(b, getOponentId(), positions);//block the fucker
+		//	return Utility::blockGame(b, getOponentId(), positions);//block the fucker
 		}
 		//to do: ALL
 		//minimax 
@@ -62,11 +67,19 @@ std::pair<int, int> BotIO::action(const std::string &type, int time) {
 		//else, return false
 
 		
+	
+
 		if (Board::throwOpponentNoAdvantage(b, getOponentId(), pos))
 		{
-			for (auto& bestPosition : pos)
-			{
-				//return best;
+			if (Board::throwOpponentInBlankGame(b, getOponentId(), blankPositions)) {
+				for (auto& bestPosition : pos)
+				{
+					return Board::chooseBestPosition(bestPosition, blankPositions);
+				}
+			}
+			else {
+				
+				return pos[rand() % (pos.size() - 1) + 1];
 			}
 		}
 	}

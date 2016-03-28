@@ -52,8 +52,8 @@ int Position::nextBoard(const int i, const int j)
 std::pair<int, int> Position::getMatrixPosition(const int board, const std::pair<int, int> relativePosition) {
 
 	int position = getPosition(board, relativePosition.first, relativePosition.second);
-	int y = position / 9;
-	int x = position - 9 * y;
+	int x = position / 9;
+	int y = position - 9 * x;
 	return std::make_pair(x, y);
 
 }
