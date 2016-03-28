@@ -61,7 +61,7 @@ std::pair<int, int> BotIO::action(const std::string &type, int time) {
 		//and return true,
 		//else, return false
 
-
+		
 		if (Board::throwOpponentNoAdvantage(b, getOponentId(), pos))
 		{
 			for (auto& bestPosition : pos)

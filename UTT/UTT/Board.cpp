@@ -207,6 +207,41 @@ bool Board::throwOpponentNoAdvantage(int board, const int opponent, std::vector<
 	return false;
 
 }
+bool Board::throwOpponentInBlankGame(int board, const int opponent, std::vector<std::pair<int, int> >& possibleClosingPossitions) {
+
+	assert(0 <= board && board < 9);
+	assert(1 <= opponent && opponent <= 2);
+
+	int newboard;
+	std::vector<std::pair<int, int> > emptyPositions;
+	std::set< std::pair <int, int> > closingPositions;
+
+	getEmptyPositions(board, emptyPositions);
+
+	for (auto& emptyPos : emptyPositions)
+	{
+		// complematam cu metoda paul
+		newboard = 3 * emptyPos.first + emptyPos.second;
+		if (_macroboard[newboard] == 0 &&
+			isEmpty(newboard) == true)
+
+		{
+			possibleClosingPossitions.push_back(Position::getMatrixPosition(board, emptyPos));
+		}
+		else
+		{
+			closingPositions.clear();
+		}
+	}
+	if (possibleClosingPossitions.size())
+	{
+		return true;
+	}
+	return false;
+
+}
+
+
 
 Board::Board()
 {

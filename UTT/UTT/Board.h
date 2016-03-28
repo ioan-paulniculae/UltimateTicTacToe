@@ -21,8 +21,9 @@ public:
 	static void getEmptyPositions(const int board, std::vector<std:: pair<int, int> > &emptyPositions);
 	static void getCurrentPlayingBoards(std::vector<int>& playing_boards);
 	static bool Board::throwOpponentNoAdvantage(int board, const int opponent, std::vector<std::pair<int, int> >& possibleClosingPossitions);
-
+	static bool Board::throwOpponentInBlankGame(int board, const int opponent, std::vector<std::pair<int, int> >& possibleClosingPossitions);
 	~Board();
+
 private:
 
 	static void addIfThree(const int player, const int first, const int second, const int third, std::vector<std::pair<int, int> >& positionToClose);
