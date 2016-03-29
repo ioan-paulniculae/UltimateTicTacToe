@@ -52,7 +52,13 @@ void Board::addIfThree(const int player, const int first, const int second, cons
 		!(_field[second] == player) &&
 		(_field[third] == player))
 	{
-		closingPosition = Position::getMatrixPosition(second);
+		closingPosition = Position::getMatrixPosition(second);//ai facut metoda aia sa imi zica pozitia relativa?
+		//gen sa nu imi zica pozitia in matrice, ci boardu si i j? + am treaba la munca
+		//fa metoda aia ca aia a dat crapau, lipsa ei,
+		//trebe metoda care primeste un loc in matrice (ex 70) si zice
+		//board 5 - x = 1; y = 2//ok? ok am inteles, refac functia
+		// asta iti da perechea absoluta. de ce vreis i boardul  ? 
+
 		positionToClose.push_back(closingPosition);
 		return;
 	}
@@ -190,9 +196,14 @@ bool Board::throwOpponentNoAdvantage(int board, const int opponent, std::vector<
 	for (auto& emptyPos : emptyPositions)
 	{
 		// complematam cu metoda paul
-		newboard = 3 * emptyPos.first + emptyPos.second;
-		if (_macroboard[newboard] == 0 &&
-			!getClosingPositions(newboard, opponent, closingPositions))
+		newboard = Position::nextBoard(emptyPos);
+		if (newboard == -1)
+		{
+			newboard = 3 * emptyPos.first + emptyPos.second; //nu tratam cazul in care mutarea il trimite in mai multe jocuri
+		}
+		if ((_macroboard[newboard] == 0  ||
+			 _macroboard[newboard] == -1 )//daca il trimit intr-un joc disponimbil
+			&&!getClosingPositions(newboard, opponent, closingPositions))
 		{
 			possibleClosingPossitions.push_back(Position::getMatrixPosition(board, emptyPos));
 		}
@@ -227,7 +238,9 @@ bool Board::throwOpponentInBlankGame(int board, const int opponent, std::vector<
 			isEmpty(newboard) == true)
 
 		{
-			possibleClosingPossitions.push_back(Position::getMatrixPosition(board, emptyPos));
+			std::pair<int, int> position = Position::getMatrixPosition(board, emptyPos);
+
+			possibleClosingPossitions.push_back();
 		}
 		else
 		{
@@ -250,7 +263,7 @@ std::pair<int, int> Board::chooseBestPosition(std::pair<int, int> bestPosition, 
 	{
 		if (bestPosition == blankPos) 
 		{
-			return blankPos;
+			return blankPos;//:)) cine a scris asta? eu si alex tu cine?theo:))
 		}
 	}
 }

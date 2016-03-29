@@ -59,19 +59,14 @@ std::pair<int, int> BotIO::action(const std::string &type, int time) {
 		}
 		//to do: ALL
 		//minimax 
-
+		if (Board::throwOpponentInBlankGame(b, getOponentId(), blankPositions))
+		{
+			return *blankPositions.begin();
+		}
 		if (Board::throwOpponentNoAdvantage(b, getOponentId(), pos))
 		{
-			if (Board::throwOpponentInBlankGame(b, getOponentId(), blankPositions)) {
-				for (auto& bestPosition : pos)
-				{
-					return Board::chooseBestPosition(bestPosition, blankPositions);
-				}
-			}
-			else {
-				
-				return pos[rand() % (pos.size() - 1) + 1];
-			}
+			return pos[rand() % (pos.size() - 1) + 1];
+	
 		}
 	}
 
