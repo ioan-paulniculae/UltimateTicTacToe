@@ -39,20 +39,20 @@ bool Board::isClosed(const int board)
 void Board::addIfThree(const int player, const int first, const int second, const int third, std::vector<std::pair<int, int> >& positionToClose)
 {
 	std::pair<int, int> closingPosition;
-	if (!(_field[first] == player) &&
-		(_field[second] == player) &&
-		(_field[third] == player))
+	if (_field[first] == 0 &&
+		_field[second] == player &&
+		_field[third] == player)
 	{
 		closingPosition = Position::getRelativePosition(first);
 		positionToClose.push_back(closingPosition);
 		return;
 	}
 
-	if ((_field[first] == player) &&
-		!(_field[second] == player) &&
-		(_field[third] == player))
+	if (_field[first] == player &&
+		_field[second] == 0&&
+		_field[third] == player)
 	{
-		closingPosition = Position::getMatrixPosition(second);//ai facut metoda aia sa imi zica pozitia relativa?
+		closingPosition = Position::getRelativePosition(second);//ai facut metoda aia sa imi zica pozitia relativa?
 		//gen sa nu imi zica pozitia in matrice, ci boardu si i j? + am treaba la munca
 		//fa metoda aia ca aia a dat crapau, lipsa ei,
 		//trebe metoda care primeste un loc in matrice (ex 70) si zice
@@ -63,9 +63,9 @@ void Board::addIfThree(const int player, const int first, const int second, cons
 		return;
 	}
 
-	if ((_field[first] == player) &&
-		(_field[second] == player) &&
-		!(_field[third] == player))
+	if (_field[first] == player &&
+		_field[second] == player &&
+		_field[third] == 0)
 	{
 		closingPosition = Position::getRelativePosition(third);
 		positionToClose.push_back(closingPosition);
@@ -238,9 +238,8 @@ bool Board::throwOpponentInBlankGame(int board, const int opponent, std::vector<
 			isEmpty(newboard) == true)
 
 		{
-			std::pair<int, int> position = Position::getMatrixPosition(board, emptyPos);
 
-			possibleClosingPossitions.push_back();
+			possibleClosingPossitions.push_back(Position::getMatrixPosition(board, emptyPos));
 		}
 		else
 		{
@@ -258,14 +257,16 @@ bool Board::throwOpponentInBlankGame(int board, const int opponent, std::vector<
 std::pair<int, int> Board::chooseBestPosition(std::pair<int, int> bestPosition, std::vector< std::pair<int,int> > blankPositions) 
 {
 
-	//send opponent in a blank game 
-	for (auto& blankPos : blankPositions) 
-	{
-		if (bestPosition == blankPos) 
-		{
-			return blankPos;//:)) cine a scris asta? eu si alex tu cine?theo:))
-		}
-	}
+	////send opponent in a blank game 
+	//for (auto& blankPos : blankPositions) 
+	//{
+	//	if (bestPosition == blankPos) 
+	//	{
+	//		return blankPos;//:)) cine a scris asta? eu si alex tu cine?theo:))
+	//	}
+	//}
+	//return std::make_pair(0, 0);
+	return *blankPositions.begin();
 }
 
 

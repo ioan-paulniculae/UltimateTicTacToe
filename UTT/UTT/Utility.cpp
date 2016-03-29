@@ -28,6 +28,7 @@ int UTTT::Core::Utility::stringToInt(const std::string & s)
 
 std::pair<int, int> UTTT::Core::Utility::closeGame(const int board, const int opponent, const std::set<std::pair<int, int>>& possibleClosingPositions)
 {
+	//(priority, pair)
 	std::priority_queue<std::pair<int,std::pair<int, int> > > que;
 	std::set<std::pair<int, int> > dummySet;
 	int nextPlayingBoard;

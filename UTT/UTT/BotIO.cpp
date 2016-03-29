@@ -65,7 +65,7 @@ std::pair<int, int> BotIO::action(const std::string &type, int time) {
 		}
 		if (Board::throwOpponentNoAdvantage(b, getOponentId(), pos))
 		{
-			return pos[rand() % (pos.size() - 1) + 1];
+			return *pos.begin();
 	
 		}
 	}

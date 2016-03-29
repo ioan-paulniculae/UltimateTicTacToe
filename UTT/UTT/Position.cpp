@@ -22,6 +22,14 @@ void Position::setPosition(const int board, const int i, const int j, const int 
 	Board::_macroboard[position] = player;
 }
 
+std::pair<int, int> Position::getRelativePosition(const int value)
+{
+	assert(0 <= value && value <= 80);
+	int x = value % 3;
+	int y = value / 9 % 3;
+	return std::make_pair(y, x);
+}
+
 std::pair<int, int> Position::getMatrixPosition(const int value) {
 
 	assert(0 <= value && value <= 80);
