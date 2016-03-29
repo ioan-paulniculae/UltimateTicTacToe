@@ -245,7 +245,7 @@ bool Board::throwOpponentInBlankGame(int board, const int opponent, std::vector<
 std::pair<int, int> Board::chooseBestPosition(std::pair<int, int> bestPosition, std::vector< std::pair<int,int> > blankPositions) 
 {
 
-	//send opponent in a blank game else in a random game
+	//send opponent in a blank game 
 	for (auto& blankPos : blankPositions) 
 	{
 		if (bestPosition == blankPos) 
