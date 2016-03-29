@@ -27,7 +27,7 @@ std::pair<int, int> Position::getMatrixPosition(const int value) {
 	assert(0 <= value && value <= 80);
 	int x = value / 9;
 	int y = value - 9 * x;
-	return std::make_pair(x, y);
+	return std::make_pair(y, x);
 
 }
 
@@ -54,7 +54,7 @@ std::pair<int, int> Position::getMatrixPosition(const int board, const std::pair
 	int position = getPosition(board, relativePosition.first, relativePosition.second);
 	int x = position / 9;
 	int y = position - 9 * x;
-	return std::make_pair(x, y);
+	return std::make_pair(y, x);
 
 }
 
