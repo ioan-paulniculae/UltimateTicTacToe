@@ -43,7 +43,7 @@ void Board::addIfThree(const int player, const int first, const int second, cons
 		(_field[second] == player) &&
 		(_field[third] == player))
 	{
-		closingPosition = Position::getMatrixPosition(first);
+		closingPosition = Position::getRelativePosition(first);
 		positionToClose.push_back(closingPosition);
 		return;
 	}
@@ -52,7 +52,7 @@ void Board::addIfThree(const int player, const int first, const int second, cons
 		!(_field[second] == player) &&
 		(_field[third] == player))
 	{
-		closingPosition = Position::getMatrixPosition(second);
+		closingPosition = Position::getRelativePosition(second);
 		positionToClose.push_back(closingPosition);
 		return;
 	}
@@ -61,7 +61,7 @@ void Board::addIfThree(const int player, const int first, const int second, cons
 		(_field[second] == player) &&
 		!(_field[third] == player))
 	{
-		closingPosition = Position::getMatrixPosition(third);
+		closingPosition = Position::getRelativePosition(third);
 		positionToClose.push_back(closingPosition);
 		return;
 	}
