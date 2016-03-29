@@ -23,6 +23,16 @@ Pentru implementare am folosit urmatoarele functii:
 
 	In Board.h :
 
+-void Board::getCurrentPlayingBoards(std::vector<int> &playingBoards)
+	Functia primeste un vector in care sunt retinute bordurile in care se mai poate juca
+
+
+-static void getEmptyPositions(const int board, std::vector<std:: pair<int, int> > &emptyPositions);
+	Functia primeste ca argument board-ul un vector de perechi in care sunt retinute pozitiile libere in care putem pune.
+
+-bool Board::throwOpponentInBlankGame(int board, const int opponent, std::vector<std::pair<int, int> >& possibleClosingPossitions)
+	Functia primeste ca argument board-ul , oponentul si un vector in care sunt retinute pozitiile libere in care pot pune astfel incat sa trimit oponentul intr-un blank game.
+
 - static bool isEmpty(const int board);
 	Functia primeste ca parametru board-ul si returneaza true daca nu a fost pus nimic acolo si false altfel.
 
@@ -70,4 +80,5 @@ Pentru implementare am folosit urmatoarele functii:
 	In BotIO.cpp:
 
 - in functia:  std::pair<int, int> BotIO::action(const std::string &type, int time) 
+	
 	
