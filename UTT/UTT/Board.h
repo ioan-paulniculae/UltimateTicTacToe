@@ -24,7 +24,7 @@ public:
 	static bool throwOpponentInBlankGame(int board, const int opponent, std::vector<std::pair<int, int> >& possibleClosingPossitions);
 
 	static std::pair<int, int> chooseBestPosition(std::pair<int, int> bestPosition, std::vector< std::pair<int,int> > blankPositions);
-	~Board();
+	~Board();  
 
 private:
 

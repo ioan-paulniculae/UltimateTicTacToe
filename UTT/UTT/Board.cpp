@@ -237,7 +237,15 @@ bool Board::throwOpponentInBlankGame(int board, const int opponent, std::vector<
 		if (_macroboard[newboard] == 0 &&
 			isEmpty(newboard) == true)
 
+
+
 		{
+			if (board == newboard) {
+				continue;
+
+
+
+			}else 
 
 			possibleClosingPossitions.push_back(Position::getMatrixPosition(board, emptyPos));
 		}
