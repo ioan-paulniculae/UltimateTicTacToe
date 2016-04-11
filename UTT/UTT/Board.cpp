@@ -254,6 +254,53 @@ bool Board::throwOpponentInBlankGame(int board, const int opponent, std::vector<
 
 }
 
+bool Board::isValid(const int move)
+{
+	int board = Board::getBoard(move);
+	std::vector<std::pair<int, int> > emptyPositions;
+
+	if (_macroboard[board] == 0)
+	{
+		getEmptyPositions(board, emptyPositions);
+
+		if (emptyPositions.size())
+		{
+			return true;
+		}
+	}
+
+	if (_macroboard[board] == -1)
+	{
+		return true;
+	}
+
+	return false;
+}
+
+void Board::getEmptyPositions(std::set<std::pair<int,int> > &emptyPositions)
+{
+	int i;
+	int j;
+	std::pair<int,int> relativePosition;
+	std::vector<std::pair<int, int> > positions;
+
+	for (i = 0; i < 9; i++)
+	{
+		if (isValid(Position::getPosition(i, 0, 0)))
+		{
+			getEmptyPositions(i, positions);
+
+			for (j = 0; j < positions.size(); j++)
+			{
+				relativePosition = Position::getMatrixPosition(i, positions[j]);
+				emptyPositions.insert( relativePosition );
+			}
+
+			positions.clear();
+		}
+	}
+}
+
 std::pair<int, int> Board::chooseBestPosition(std::pair<int, int> bestPosition, std::vector< std::pair<int,int> > blankPositions) 
 {
 

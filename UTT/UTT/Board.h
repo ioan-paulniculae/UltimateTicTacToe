@@ -24,6 +24,14 @@ public:
 	static bool throwOpponentInBlankGame(int board, const int opponent, std::vector<std::pair<int, int> >& possibleClosingPossitions);
 
 	static std::pair<int, int> chooseBestPosition(std::pair<int, int> bestPosition, std::vector< std::pair<int,int> > blankPositions);
+
+	//returns true if the game isn't close else false
+	static bool isValid(const int move);
+
+	//returns all empty positions from all boards that are not closed
+	//(relative positions [0-9][0-9]
+	static void getEmptyPositions(std::set<std::pair<int,int> > &emptyPositions);
+	
 	~Board();
 
 private:

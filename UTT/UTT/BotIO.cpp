@@ -68,9 +68,20 @@ std::pair<int, int> BotIO::action(const std::string &type, int time) {
 			return *pos.begin();
 	
 		}
+		 
+		
 	}
+	
+	
 
+	//TESTE
+	//bool test = Board::isValid(32);
+	//std::set<std::pair<int,int> > vector;
+	//Board::getEmptyPositions(vector);
+	
 	return getRandomFreeCell();
+
+	
 }
 
 std::pair<int, int> BotIO::getRandomFreeCell() const {
