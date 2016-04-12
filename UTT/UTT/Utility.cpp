@@ -26,7 +26,7 @@ int UTTT::Core::Utility::stringToInt(const std::string & s)
 	return result;
 }
 
-std::pair<int, int> UTTT::Core::Utility::closeGame(const int board, const int opponent, const std::set<std::pair<int, int>>& possibleClosingPositions)
+std::pair<int, int> UTTT::Core::Utility::closeGame(const Board* b, const int board, const int opponent, const std::set<std::pair<int, int>>& possibleClosingPositions)
 {
 	//(priority, pair)
 	std::priority_queue<std::pair<int,std::pair<int, int> > > que;
@@ -34,25 +34,25 @@ std::pair<int, int> UTTT::Core::Utility::closeGame(const int board, const int op
 	int nextPlayingBoard;
 	for (auto& closingPosition : possibleClosingPositions)
 	{
-		nextPlayingBoard = Position::nextBoard(closingPosition);
+		nextPlayingBoard = b->next(closingPosition);
 		if (nextPlayingBoard == -1 ||
 			nextPlayingBoard == board)
 		{
 			que.push(make_pair(std::numeric_limits<int>::min(), closingPosition));
 			continue;
 		}
-		if (Board::isClosed(nextPlayingBoard))
+		if (b->isClosed(nextPlayingBoard))
 		{
 			que.push(make_pair(std::numeric_limits<int>::min(), closingPosition));
 			continue;
 		}
-		if (Board::isEmpty(nextPlayingBoard))
+		if (b->isEmpty(nextPlayingBoard))
 		{
 			que.push(make_pair(std::numeric_limits<int>::max(), closingPosition));
 			continue;
 		}
 
-		if (!Board::getClosingPositions(nextPlayingBoard, opponent, dummySet))
+		if (!b->getClosingPositions(nextPlayingBoard, opponent, dummySet))
 		{
 			que.push(make_pair(std::numeric_limits<int>::max() / 2, closingPosition));
 			continue;
@@ -63,17 +63,17 @@ std::pair<int, int> UTTT::Core::Utility::closeGame(const int board, const int op
 		
 		
 	}
-	return Position::getMatrixPosition(board, que.top().second);
+	return Position::getMatrixPosition(b, board, que.top().second);
 }
 
-std::pair<int, int> UTTT::Core::Utility::blockGame(const int board, const int opponent, const std::set<std::pair<int, int> >& possibleClosingPositions)
+std::pair<int, int> UTTT::Core::Utility::blockGame(const Board* b, const int board, const int opponent, const std::set<std::pair<int, int> >& possibleClosingPositions)
 {
 	std::priority_queue<std::pair<int, std::pair<int, int> > > que;
 	std::set<std::pair<int, int> > dummySet;
 	int nextPlayingBoard;
 	for (auto& closingPosition : possibleClosingPositions)
 	{
-		nextPlayingBoard = Position::nextBoard(closingPosition);
+		nextPlayingBoard = b->next(closingPosition);
 		//if i place and allow him to place wherever he pleases
 		if (nextPlayingBoard == -1 ||
 			//or I send him in the same game (where he can win) and he has more than 1 winning possibility
@@ -82,18 +82,18 @@ std::pair<int, int> UTTT::Core::Utility::blockGame(const int board, const int op
 			que.push(make_pair(std::numeric_limits<int>::min(), closingPosition));
 			continue;
 		}
-		if (Board::isClosed(nextPlayingBoard))
+		if (b->isClosed(nextPlayingBoard))
 		{
 			que.push(make_pair(std::numeric_limits<int>::min(), closingPosition));
 			continue;
 		}
-		if (Board::isEmpty(nextPlayingBoard))
+		if (b->isEmpty(nextPlayingBoard))
 		{
 			que.push(make_pair(std::numeric_limits<int>::max(), closingPosition));
 			continue;
 		}
 
-		if (!Board::getClosingPositions(nextPlayingBoard, opponent, dummySet))
+		if (!b->getClosingPositions(nextPlayingBoard, opponent, dummySet))
 		{
 			que.push(make_pair(std::numeric_limits<int>::max() / 2, closingPosition));
 			continue;
@@ -102,5 +102,5 @@ std::pair<int, int> UTTT::Core::Utility::blockGame(const int board, const int op
 		que.push(make_pair(std::numeric_limits<int>::min(), closingPosition));
 		dummySet.clear();
 	}
-	return Position::getMatrixPosition(board, que.top().second);
+	return Position::getMatrixPosition(b, board, que.top().second);
 }

@@ -45,37 +45,32 @@ std::pair<int, int> BotIO::action(const std::string &type, int time) {
 	std::set<std::pair<int, int> > positions;
 	std::vector<std::pair<int, int> > pos;
 	std::vector < std::pair<int, int> > blankPositions;
-	Board::getCurrentPlayingBoards(playingBoards);
+	_playingBoard.getCurrentPlayingBoards(playingBoards);
 
 	for (auto b : playingBoards)
 	{
-		if (Board::getClosingPositions(b, getBotId(), positions))//if i can close
+		if (_playingBoard.getClosingPositions(b, getBotId(), positions))//if i can close
 		{
-			return Utility::closeGame(b, getOponentId(), positions);
+			return Utility::closeGame(&_playingBoard, b, getOponentId(), positions);
 		}
-		if (Board::getClosingPositions(b, getOponentId(), positions))//if opponent can close
+		if (_playingBoard.getClosingPositions(b, getOponentId(), positions))//if opponent can close
 		{
-			return Utility::blockGame(b, getOponentId(), positions);//block the fucker
+			return Utility::blockGame(&_playingBoard, b, getOponentId(), positions);//block the fucker
 		}
 		//to do: ALL
 		//minimax 
-		if (Board::throwOpponentInBlankGame(b, getOponentId(), blankPositions))
+		if (_playingBoard.throwOpponentInBlankGame(b, getOponentId(), blankPositions))
 		{
 			return *blankPositions.begin();
 		}
-		if (Board::throwOpponentNoAdvantage(b, getOponentId(), pos))
+		if (_playingBoard.throwOpponentNoAdvantage(b, getOponentId(), pos))
 		{
 			return *pos.begin();
-	
 		}
-		 
-		
 	}
-	
-	
 
 	//TESTE
-	//bool test = Board::isValid(32);
+	//bool test = _playingBoard.isValid(32);
 	//std::set<std::pair<int,int> > vector;
 	//Board::getEmptyPositions(vector);
 	
@@ -89,7 +84,7 @@ std::pair<int, int> BotIO::getRandomFreeCell() const {
 	std::vector<int> freeCells;
 	for (int i = 0; i < 81; ++i) {
 		int blockId = ((i / 27) * 3) + (i % 9) / 3;
-		if (Board::_macroboard[blockId] == -1 && Board::_field[i] == 0) {
+		if (_playingBoard._macroboard[blockId] == -1 && _playingBoard._field[i] == 0) {
 			freeCells.push_back(i);
 		}
 	}
@@ -128,7 +123,7 @@ void BotIO::update(const std::string& player, const std::string& type, const std
 	else if (type == "macroboard" || type == "field") {
 		std::vector<std::string> rawValues;
 		Utility::split(value, ',', rawValues);
-		std::vector<int>::iterator choice = (type == "field" ? Board::_field.begin() : Board::_macroboard.begin());
+		std::vector<int>::iterator choice = (type == "field" ? _playingBoard._field.begin() : _playingBoard._macroboard.begin());
 		std::transform(rawValues.begin(), rawValues.end(), choice, Utility::stringToInt);
 	}
 	else {
