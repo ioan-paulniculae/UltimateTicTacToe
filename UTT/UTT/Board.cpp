@@ -328,7 +328,7 @@ bool Board::throwOpponentInBlankGame(int board, const int opponent, std::vector<
 	return false;
 }
 
-bool Board::isValid(const int move) const
+bool Board::playingBoards(const int move) const
 {
 	int board = Board::getBoard(move);
 	std::vector<std::pair<int, int> > emptyPositions;
@@ -351,6 +351,19 @@ bool Board::isValid(const int move) const
 	return false;
 }
 
+bool Board::isValid(const int move) const {
+
+	if (_field[move] == 0)
+	{
+		if (playingBoards(move))
+		{
+			return true;
+		}
+	}
+
+	return false;
+}
+
 void Board::getEmptyPositions(std::set<std::pair<int,int> > &emptyPositions) const
 {
 	int i;
@@ -360,7 +373,7 @@ void Board::getEmptyPositions(std::set<std::pair<int,int> > &emptyPositions) con
 
 	for (i = 0; i < 9; i++)
 	{
-		if (isValid(getPosition(i, 0, 0)))
+		if (playingBoards(getPosition(i, 0, 0)))
 		{
 			getEmptyPositions(i, positions);
 

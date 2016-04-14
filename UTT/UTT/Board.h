@@ -22,6 +22,7 @@ public:
 	bool getClosingPositions(const int board, const int player, std::set< std::pair<int, int> > &allPositionsToClose) const;
 	void getEmptyPositions(const int board, std::vector<std::pair<int, int> > &emptyPositions) const;
 	void getEmptyPositions(std::set<std::pair<int, int> > &emptyPositions) const;
+	bool playingBoards(const int move) const;
 	std::pair<int, int> chooseBestPosition(std::pair<int, int> bestPosition, std::vector< std::pair<int, int> > blankPositions);
 	//
 	int getPosition(const int board, const int i, const int j) const;
