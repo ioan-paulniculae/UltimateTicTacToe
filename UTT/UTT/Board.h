@@ -28,7 +28,8 @@ public:
 	int getPosition(const int board, const int i, const int j) const;
 	void setPosition(const int board, const int i, const int j, const int player);
 
-
+	// alex 
+	void ApplyMove(const int move, const int player);
 
 	//returns a container with all the empty positions in the board
 	//the positions are absolute

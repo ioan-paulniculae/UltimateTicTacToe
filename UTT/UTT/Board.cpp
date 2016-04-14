@@ -392,6 +392,32 @@ void Board::getEmptyPositions(std::set<std::pair<int,int> > &emptyPositions) con
 	}
 }
 
+/** Atentie nu e terminata */
+void Board::ApplyMove(const int move, const int player) { //  nu e terminata
+
+	if (isValid(move) == true) {
+		_field[move] = player;
+	}
+
+	std::set< std::pair <int, int> > positionsToClose;
+	int board = getBoard(move);
+	getClosingPositions(board, player, positionsToClose); // perechi 0..2
+	
+	std::pair <int, int> GetRelativePosition = Position::getRelativePosition(move);
+
+	int goNextBoard = next(GetRelativePosition);
+
+
+	for (auto &x : positionsToClose) { // am inchis board-ul cu player-ul care muta
+		if (GetRelativePosition == x) {
+			_macroboard[board] = player;
+		}
+	}
+
+
+
+
+}
 std::pair<int, int> Board::chooseBestPosition(std::pair<int, int> bestPosition, std::vector< std::pair<int,int> > blankPositions) 
 {
 
