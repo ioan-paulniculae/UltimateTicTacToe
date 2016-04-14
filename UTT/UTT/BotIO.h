@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include "Board.h"
 namespace UTTT {
 	namespace Core {
 		class BotIO
@@ -16,9 +17,9 @@ namespace UTTT {
 			int _timebank;
 			int _timePerMove;
 			int _botId;
+			Board _playingBoard;
 			std::vector<std::string> _playerNames;
 			std::string _myName;
-
 			// dynamic settings
 			int _round;
 			int _move;
