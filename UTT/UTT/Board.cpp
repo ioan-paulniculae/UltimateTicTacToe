@@ -205,22 +205,12 @@ int Board::getBoard(const int value) const{
 
 int Board::next(const std::pair<int, int>& move) const
 {
-	return next(move.first, move.second);
+	std::pair<int,int> relativeMove = Position::getRelativePosition(move);
+
+	int nextBoard = 3 * relativeMove.first + relativeMove.second;
+
+	return isFinished(nextBoard) ? -1 : nextBoard;
 }
-
-int Board::next(const int i, const int j) const
-{
-	assert(i >= 0);
-	assert(i < 3);
-
-	assert(j >= 0);
-	assert(j < 3);
-
-	int nextBoard = 3 * i + j;
-
-	return isClosed(nextBoard) ? -1 : nextBoard;
-}
-
 
 void Board::getEmptyPositions(const int board, std::set<std::pair<int, int> > &emptyPositions) const
 {
