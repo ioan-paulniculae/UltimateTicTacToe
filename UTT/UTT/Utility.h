@@ -12,6 +12,7 @@ namespace UTTT {
 			static int stringToInt(const std::string &s);
 			static std::pair<int, int> closeGame(const Board* b, const int board, const int opponent, const std::set<std::pair<int, int> >& possibleClosingPositions);
 			static std::pair<int, int> blockGame(const Board* b, const int board, const int opponent, const std::set<std::pair<int, int> >& possibleClosingPositions);
+			static int getNextPlayer(const int currentPlayer);
 		};
 	}
 }

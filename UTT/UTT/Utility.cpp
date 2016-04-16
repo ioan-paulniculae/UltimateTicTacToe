@@ -26,6 +26,10 @@ int UTTT::Core::Utility::stringToInt(const std::string & s)
 	return result;
 }
 
+int UTTT::Core::Utility::getNextPlayer(const int currentPlayer)
+{
+	return currentPlayer == 1 ? 2 : 1;
+}
 std::pair<int, int> UTTT::Core::Utility::closeGame(const Board* b, const int board, const int opponent, const std::set<std::pair<int, int>>& possibleClosingPositions)
 {
 	//(priority, pair)
