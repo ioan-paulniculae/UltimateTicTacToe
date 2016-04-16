@@ -14,8 +14,8 @@ public:
 	bool isClosed(const int board) const;
 
 	int next(const std::pair<int, int>& move) const;
-	int next(const int i, const int j) const;
 	int getBoard(const int value) const;
+	int getBoard(const std::pair<int, int> & move) const;
 	//returns all unique closing positions in the board for the player
 	//the positions are relative to the game NOT to the board
 
@@ -30,6 +30,9 @@ public:
 	void setPosition(const int board, const int i, const int j, const int player);
 
 	bool isFinished(const int board) const;
+	bool finishes(std::pair<int,int> move , const int player , int &id) const;
+	// alex 
+	void applyMove(const std::pair<int, int>&, const int player);
 
 	//returns a container with all the empty positions in the board
 	//the positions are absolute
@@ -53,6 +56,6 @@ private:
 	void twoOnColumn(const int board, const int player, const int column, std::vector< std::pair<int, int> > &PositionToClose) const;
 	void twoOnFirstDiagonal(const int board, const int player, std::vector< std::pair<int, int> > &PositionToClose) const;
 	void twoOnSecondDiagonal(const int board, const int player, std::vector< std::pair<int, int> > &PositionToClose) const;
-
+	void updateMacroboard(const std::pair<int, int>& move);
 
 };

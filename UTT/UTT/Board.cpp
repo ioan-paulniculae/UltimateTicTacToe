@@ -138,6 +138,42 @@ void Board::twoOnSecondDiagonal(const int board,
 	addIfThree(player, first, second, third, PositionToClose);
 }
 
+void Board::updateMacroboard(const std::pair<int, int>& move)
+{
+
+	int nextBoard = next(move);
+	bool allFlag = false;
+	if (nextBoard != -1) {
+		if (_macroboard[nextBoard]) {
+			allFlag = true;
+		}
+		else {
+			if (isFinished(nextBoard)) {
+				allFlag = true; //  cred
+			}
+		}
+	}
+
+	if (allFlag)
+	{
+		for (int b = 0; b < 9; b++)
+		{
+			if (_macroboard[b] == 0)
+			{
+				if (!isFinished(b))
+				{
+					_macroboard[b] = -1;
+				}
+			}
+		}
+	}
+	else
+	{
+		_macroboard[nextBoard] = -1;
+	}
+
+}
+
 bool Board::getClosingPositions(const int board,
 								const int player,
 								std::set< std::pair<int, int> > &allPositionsToClose) const{
@@ -205,22 +241,12 @@ int Board::getBoard(const int value) const{
 
 int Board::next(const std::pair<int, int>& move) const
 {
-	return next(move.first, move.second);
+	std::pair<int,int> relativeMove = Position::getRelativePosition(move);
+
+	int nextBoard = 3 * relativeMove.first + relativeMove.second;
+
+	return isFinished(nextBoard) ? -1 : nextBoard;
 }
-
-int Board::next(const int i, const int j) const
-{
-	assert(i >= 0);
-	assert(i < 3);
-
-	assert(j >= 0);
-	assert(j < 3);
-
-	int nextBoard = 3 * i + j;
-
-	return isClosed(nextBoard) ? -1 : nextBoard;
-}
-
 
 void Board::getEmptyPositions(const int board, std::set<std::pair<int, int> > &emptyPositions) const
 {
@@ -342,7 +368,7 @@ bool Board::playingBoards(const int move) const
 		getEmptyPositions(board, emptyPositions);
 
 		if (emptyPositions.size())
-		{ 
+		{
 			return true;
 		}
 	}
@@ -398,6 +424,40 @@ void Board::getEmptyPositions(std::set<std::pair<int,int> > &emptyPositions) con
 	}
 }
 
+int Board::getBoard(const std::pair<int, int> & move) const {
+
+	int row = 3 * (move.second / 3);
+	int column = move.first / 3;
+
+	return row + column;
+}
+
+
+void Board::applyMove(const std::pair<int, int> & move, const int player)
+{
+	std::set< std::pair <int, int> > positionsToClose;
+	int board = getBoard(move); // board-ul unde pun mutarea
+	bool allFlag = false;
+
+	int index = Position::absoluteToAbsolute(move);
+
+	_field[index] = player;
+	int id;
+
+	if (finishes(move, player, id)) {
+		if (id == player) {
+			_macroboard[board] = player;
+		}
+		if (id == 0) {
+			_macroboard[board] = 0;
+		}
+	}
+	else {
+		_macroboard[board] = 0;
+	}
+	updateMacroboard(move);
+
+}
 bool Board::isFinished(const int board) const
 {
 	assert(board != -1);
@@ -419,6 +479,29 @@ bool Board::isFinished(const int board) const
 		return false;
 	}
 
+}
+bool Board::finishes(std::pair<int , int> move , const int player , int &id) const {
+	std::set< std::pair<int, int> > positions;
+	int board = getBoard(move);
+	std::pair<int, int> toRelative = Position::getRelativePosition(move);
+	getEmptyPositions(board, positions);
+	if (positions.size() == 1) {
+		if (Position::getMatrixPosition(this, board, *positions.begin()) == move) {
+			id = 0;
+			return true;
+		}
+	}
+	positions.clear();
+	getClosingPositions(board, player, positions);
+	
+	for (auto& position : positions) {
+		if (toRelative == position) {
+			id = player;
+			return true;
+		}
+	}
+	id = -1;
+	return false;
 }
 
 std::pair<int, int> Board::chooseBestPosition(std::pair<int, int> bestPosition, std::vector< std::pair<int,int> > blankPositions) 

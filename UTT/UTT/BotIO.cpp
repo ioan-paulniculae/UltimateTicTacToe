@@ -46,7 +46,13 @@ std::pair<int, int> BotIO::action(const std::string &type, int time) {
 	std::vector<std::pair<int, int> > pos;
 	std::vector < std::pair<int, int> > blankPositions;
 	_playingBoard.getCurrentPlayingBoards(playingBoards);
-	
+	int ver;
+	_playingBoard.getEmptyPositions(positions);
+	for (auto &x : positions) {
+		ver = _playingBoard.getBoard(x);
+		std::cerr << ver << ' ' << x.first << ' ' << x.second << std::endl;
+
+	}
 	for (auto b : playingBoards)
 	{
 		if (_playingBoard.getClosingPositions(b, getBotId(), positions))//if i can close
@@ -68,7 +74,7 @@ std::pair<int, int> BotIO::action(const std::string &type, int time) {
 			return *pos.begin();
 		}
 	}
-	
+
 	//TESTE
 	//bool test = _playingBoard.isValid(32);
 	//std::set<std::pair<int,int> > vector;

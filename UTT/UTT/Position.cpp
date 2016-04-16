@@ -14,6 +14,14 @@ std::pair<int, int> Position::getRelativePosition(const int value)
 	return std::make_pair(y, x);
 }
 
+std::pair<int, int> Position::getRelativePosition(const std::pair<int, int> & move) {
+
+	return std::make_pair(move.first % 3, move.second % 3);
+}
+int Position::absoluteToAbsolute(const std::pair<int, int>& move)
+{
+	return move.second * 9 + move.first;
+}
 std::pair<int, int> Position::getMatrixPosition(const int value) {
 
 	assert(0 <= value && value <= 80);
