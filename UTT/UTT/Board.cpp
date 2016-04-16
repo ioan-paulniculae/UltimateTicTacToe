@@ -11,8 +11,8 @@
 
 Board::Board()
 {
-	_field = std::vector<int>();
-	_macroboard = std::vector<int>();
+	_field = std::vector<int>(81, 0);
+	_macroboard = std::vector<int>(9, 0);
 }
 
 Board::Board(const std::vector<int>& field, const std::vector<int>& macroboard)
