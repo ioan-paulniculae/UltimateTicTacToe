@@ -450,7 +450,7 @@ bool Board::isFinished(const int board) const
 	}
 
 }
-bool Board::isFinishes(const int move , const int player) const {
+bool Board::finishes(const int move , const int player , int &id) const {
 	std::set< std::pair<int, int> > allPositionsToClose;
 	int board = getBoard(move);
 	std::pair<int, int> toRelative = Position::getRelativePosition(move);

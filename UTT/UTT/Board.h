@@ -30,7 +30,7 @@ public:
 	void setPosition(const int board, const int i, const int j, const int player);
 
 	bool isFinished(const int board) const;
-	bool isFinishes(const int move , const int player) const;
+	bool finishes(const int move , const int player , int &id) const;
 	// alex 
 	void applyMove(const std::pair<int, int>&, const int player);
 
