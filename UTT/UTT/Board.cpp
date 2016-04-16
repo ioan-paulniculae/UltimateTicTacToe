@@ -385,8 +385,8 @@ void Board::getEmptyPositions(std::set<std::pair<int,int> > &emptyPositions) con
 
 int Board::getBoard(const std::pair<int, int> & move) const {
 
-	int row = 3 * (move.first / 3);
-	int column = move.second / 3;
+	int row = 3 * (move.second / 3);
+	int column = move.first / 3;
 
 	return row + column;
 }
@@ -397,6 +397,22 @@ void Board::applyMove(const std::pair<int, int> & move, const int player) { //  
 
 	std::set< std::pair <int, int> > positionsToClose;
 	int board = getBoard(move); // board-ul unde pun mutarea
+	bool allFlag = false;
+
+	int index = Position::absoluteToAbsolute(move);
+
+	_field[index] = player;
+	int id;
+
+	if (finishes(move, player, id)) {
+		if (id == player) {
+			_macroboard[board] = player;
+		}
+	}
+	else {
+		_macroboard[board] = 0;
+	}
+
 
 }
 bool Board::isFinished(const int board) const
