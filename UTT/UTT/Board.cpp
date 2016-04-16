@@ -11,8 +11,8 @@
 
 Board::Board()
 {
-	_field = std::vector<int>();
-	_macroboard = std::vector<int>();
+	_field = std::vector<int>(81, 0);
+	_macroboard = std::vector<int>(9, 0);
 }
 
 Board::Board(const std::vector<int>& field, const std::vector<int>& macroboard)
@@ -392,17 +392,26 @@ void Board::getEmptyPositions(std::set<std::pair<int,int> > &emptyPositions) con
 	}
 }
 
-/** Atentie nu e terminata */
-void Board::ApplyMove(const int move, const int player) { //  nu e terminata
+int Board::getBoard(const std::pair<int, int> & move) const {
 
-	if (isValid(move) == true) {
-		_field[move] = player;
-	}
+	int row = 3 * (move.first / 3);
+	int column = move.second / 3;
+
+	return row + column;
+}
+
+
+/** Atentie nu e terminata */
+void Board::applyMove(const std::pair<int, int> & move, const int player) { //  nu e terminata
 
 	std::set< std::pair <int, int> > positionsToClose;
-	int board = getBoard(move);
-	getClosingPositions(board, player, positionsToClose); // perechi 0..2
-	
+	int board = getBoard(move); // board-ul unde pun mutarea
+
+	if (_macroboard[board] == -1)
+		getEmptyPositions(positionsToClose); // perechi 0..2
+	else
+		getEmptyPositions( board, positionsToClose);
+
 	std::pair <int, int> GetRelativePosition = Position::getRelativePosition(move);
 
 	int goNextBoard = next(GetRelativePosition);
@@ -415,7 +424,7 @@ void Board::ApplyMove(const int move, const int player) { //  nu e terminata
 	}
 
 
-
+	*/
 
 }
 std::pair<int, int> Board::chooseBestPosition(std::pair<int, int> bestPosition, std::vector< std::pair<int,int> > blankPositions) 

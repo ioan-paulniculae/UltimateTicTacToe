@@ -15,6 +15,7 @@ public:
 	int next(const std::pair<int, int>& move) const;
 	int next(const int i, const int j) const;
 	int getBoard(const int value) const;
+	int getBoard(const std::pair<int, int> & move) const;
 	//returns all unique closing positions in the board for the player
 	//the positions are relative to the game NOT to the board
 
@@ -29,7 +30,7 @@ public:
 	void setPosition(const int board, const int i, const int j, const int player);
 
 	// alex 
-	void ApplyMove(const int move, const int player);
+	void applyMove(const std::pair<int, int>&, const int player);
 
 	//returns a container with all the empty positions in the board
 	//the positions are absolute
