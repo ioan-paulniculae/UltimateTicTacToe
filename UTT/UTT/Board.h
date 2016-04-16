@@ -10,6 +10,7 @@ public:
 	Board(const std::vector<int>& field, const std::vector<int>& macroboard);
 
 	bool isValid(const int move) const;
+	bool isValid(const std::pair<int, int> move) const;
 	bool isEmpty(const int board) const;
 	bool isClosed(const int board) const;
 
@@ -57,6 +58,6 @@ private:
 	void twoOnColumn(const int board, const int player, const int column, std::vector< std::pair<int, int> > &PositionToClose) const;
 	void twoOnFirstDiagonal(const int board, const int player, std::vector< std::pair<int, int> > &PositionToClose) const;
 	void twoOnSecondDiagonal(const int board, const int player, std::vector< std::pair<int, int> > &PositionToClose) const;
-
+	void updateMacroboard(const std::pair<int, int>& move);
 
 };
