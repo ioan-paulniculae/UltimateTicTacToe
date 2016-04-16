@@ -49,10 +49,11 @@ std::pair<int, int> BotIO::action(const std::string &type, int time) {
 	int ver;
 	_playingBoard.getEmptyPositions(positions);
 	for (auto &x : positions) {
-		if (_playingBoard.isValid(x)) {
-			_playingBoard.applyMove(x, getBotId());
-		}
+		ver = _playingBoard.getBoard(x);
+		std::cerr << _playingBoard;
+
 	}
+	positions.clear();
 	for (auto b : playingBoards)
 	{
 		if (_playingBoard.getClosingPositions(b, getBotId(), positions))//if i can close
