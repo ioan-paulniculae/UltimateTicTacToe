@@ -9,6 +9,7 @@ public:
 	Board(const std::vector<int>& field, const std::vector<int>& macroboard);
 
 	bool isValid(const int move) const;
+	bool isValid(const std::pair<int, int> move) const;
 	bool isEmpty(const int board) const;
 	bool isClosed(const int board) const;
 
