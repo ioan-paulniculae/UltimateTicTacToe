@@ -28,7 +28,7 @@ public:
 	int getPosition(const int board, const int i, const int j) const;
 	void setPosition(const int board, const int i, const int j, const int player);
 
-
+	bool isFinished(const int board) const;
 
 	//returns a container with all the empty positions in the board
 	//the positions are absolute

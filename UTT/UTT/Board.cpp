@@ -393,6 +393,28 @@ void Board::getEmptyPositions(std::set<std::pair<int,int> > &emptyPositions) con
 	}
 }
 
+bool Board::isFinished(const int board) const
+{
+	assert(board != -1);
+
+	std::set < std::pair<int, int> > emptyPositions;
+
+	if (_macroboard[board] != 0)
+	{
+		return true;
+	}
+	else
+	{
+		getEmptyPositions(board, emptyPositions);
+
+		if (emptyPositions.size() == 0)
+		{
+			return true;
+		}
+	}
+
+}
+
 std::pair<int, int> Board::chooseBestPosition(std::pair<int, int> bestPosition, std::vector< std::pair<int,int> > blankPositions) 
 {
 
