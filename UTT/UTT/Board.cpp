@@ -396,7 +396,7 @@ bool Board::isValid(const int move) const {
 
 bool Board::isValid(const std::pair<int, int> move) const
 {
-	absoluteToA
+	return isValid( Position::absoluteToAbsolute(move));
 }
 
 void Board::getEmptyPositions(std::set<std::pair<int,int> > &emptyPositions) const
