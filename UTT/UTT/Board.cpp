@@ -222,7 +222,7 @@ int Board::next(const int i, const int j) const
 }
 
 
-void Board::getEmptyPositions(const int board, std::vector<std::pair<int, int> > &emptyPositions) const
+void Board::getEmptyPositions(const int board, std::set<std::pair<int, int> > &emptyPositions) const
 {
 
 	int i, j;
@@ -233,7 +233,7 @@ void Board::getEmptyPositions(const int board, std::vector<std::pair<int, int> >
 			start = getPosition(board, i, j);
 
 			if (_field[start] == 0) {
-				emptyPositions.push_back(std::make_pair(i, j));
+				emptyPositions.insert(std::make_pair(i, j));
 			}
 		}
 	}
@@ -256,7 +256,7 @@ bool Board::throwOpponentNoAdvantage(int board, const int opponent, std::vector<
 	assert(1 <= opponent && opponent <= 2);
 
 	int newboard;
-	std::vector<std::pair<int, int> > emptyPositions;
+	std::set<std::pair<int, int> > emptyPositions;
 	std::set< std::pair <int, int> > closingPositions;
 
 	getEmptyPositions(board, emptyPositions);
@@ -294,7 +294,7 @@ bool Board::throwOpponentInBlankGame(int board, const int opponent, std::vector<
 	assert(1 <= opponent && opponent <= 2);
 
 	int newboard;
-	std::vector<std::pair<int, int> > emptyPositions;
+	std::set<std::pair<int, int> > emptyPositions;
 	std::set< std::pair <int, int> > closingPositions;
 
 	getEmptyPositions(board, emptyPositions);
@@ -335,7 +335,7 @@ bool Board::throwOpponentInBlankGame(int board, const int opponent, std::vector<
 bool Board::playingBoards(const int move) const
 {
 	int board = Board::getBoard(move);
-	std::vector<std::pair<int, int> > emptyPositions;
+	std::set<std::pair<int, int> > emptyPositions;
 
 	if (_macroboard[board] == 0)
 	{
@@ -373,17 +373,18 @@ void Board::getEmptyPositions(std::set<std::pair<int,int> > &emptyPositions) con
 	int i;
 	int j;
 	std::pair<int,int> relativePosition;
-	std::vector<std::pair<int, int> > positions;
-
+	std::set<std::pair<int, int> > positions;
+	std::set<std::pair<int, int> >::iterator position;
 	for (i = 0; i < 9; i++)
 	{
 		if (playingBoards(getPosition(i, 0, 0)))
 		{
 			getEmptyPositions(i, positions);
-
 			for (j = 0; j < positions.size(); j++)
 			{
-				relativePosition = Position::getMatrixPosition(this, i, positions[j]);
+				position = positions.begin();
+				std::advance(position, j);
+				relativePosition = Position::getMatrixPosition(this, i, *position);
 				emptyPositions.insert( relativePosition );
 			}
 
@@ -406,27 +407,50 @@ void Board::applyMove(const std::pair<int, int> & move, const int player) { //  
 
 	std::set< std::pair <int, int> > positionsToClose;
 	int board = getBoard(move); // board-ul unde pun mutarea
+	//
+	//if (_macroboard[board] == -1)
+	//	getEmptyPositions(positionsToClose); // perechi 0..2
+	//else
+	//	getEmptyPositions( board, positionsToClose);
 
-	if (_macroboard[board] == -1)
-		getEmptyPositions(positionsToClose); // perechi 0..2
-	else
-		getEmptyPositions( board, positionsToClose);
+	//std::pair <int, int> GetRelativePosition = Position::getRelativePosition(move);
 
-	std::pair <int, int> GetRelativePosition = Position::getRelativePosition(move);
-
-	int goNextBoard = next(GetRelativePosition);
-
-
-	for (auto &x : positionsToClose) { // am inchis board-ul cu player-ul care muta
-		if (GetRelativePosition == x) {
-			_macroboard[board] = player;
-		}
-	}
+	//int goNextBoard = next(GetRelativePosition);
 
 
-	*/
+	//for (auto &x : positionsToClose) { // am inchis board-ul cu player-ul care muta
+	//	if (GetRelativePosition == x) {
+	//		_macroboard[board] = player;
+	//	}
+	//}
+
+
+	//*/
 
 }
+bool Board::isFinished(const int board) const
+{
+	assert(board != -1);
+
+	std::set < std::pair<int, int> > emptyPositions;
+
+	if (_macroboard[board] == 1 || _macroboard[board] == 2 )
+	{
+		return true;
+	}
+	else 
+	{
+		getEmptyPositions(board, emptyPositions);
+
+		if (emptyPositions.size() == 0)
+		{
+			return true;
+		}
+		return false;
+	}
+
+}
+
 std::pair<int, int> Board::chooseBestPosition(std::pair<int, int> bestPosition, std::vector< std::pair<int,int> > blankPositions) 
 {
 

@@ -78,6 +78,10 @@ std::pair<int, int> BotIO::action(const std::string &type, int time) {
 	//bool test = _playingBoard.isValid(32);
 	//std::set<std::pair<int,int> > vector;
 	//Board::getEmptyPositions(vector);
+	//bool test = _playingBoard.isFinished(3);
+	//bool test1 =_playingBoard.isFinished(2);
+	//bool test2 = _playingBoard.isFinished(4);
+	//bool test3 = _playingBoard.isFinished(5);
 	
 	return getRandomFreeCell();
 
