@@ -28,7 +28,7 @@ bool Board::isEmpty(const int board) const
 	int i, j;
 	int pos;
 
-	for (i = 0; i < 3; ++i) {
+	for (i = 0; i < 3; ++i) { 
 		for (j = 0; j < 3; ++j) {
 
 			pos = getPosition(board, i, j);
@@ -301,8 +301,12 @@ bool Board::throwOpponentInBlankGame(int board, const int opponent, std::vector<
 
 	for (auto& emptyPos : emptyPositions)
 	{
+
 		// complematam cu metoda paul
 		newboard = 3 * emptyPos.first + emptyPos.second;
+	
+
+		
 		if (_macroboard[newboard] == 0 &&
 			isEmpty(newboard) == true)
 		{
