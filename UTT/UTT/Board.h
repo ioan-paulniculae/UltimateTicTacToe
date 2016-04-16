@@ -55,6 +55,6 @@ private:
 	void twoOnColumn(const int board, const int player, const int column, std::vector< std::pair<int, int> > &PositionToClose) const;
 	void twoOnFirstDiagonal(const int board, const int player, std::vector< std::pair<int, int> > &PositionToClose) const;
 	void twoOnSecondDiagonal(const int board, const int player, std::vector< std::pair<int, int> > &PositionToClose) const;
-
+	void updateMacroboard(const std::pair<int, int>& move);
 
 };
