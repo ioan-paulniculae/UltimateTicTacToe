@@ -205,22 +205,12 @@ int Board::getBoard(const int value) const{
 
 int Board::next(const std::pair<int, int>& move) const
 {
-	return next(move.first, move.second);
+	std::pair<int,int> relativeMove = Position::getRelativePosition(move);
+
+	int nextBoard = 3 * relativeMove.first + relativeMove.second;
+
+	return isFinished(nextBoard) ? -1 : nextBoard;
 }
-
-int Board::next(const int i, const int j) const
-{
-	assert(i >= 0);
-	assert(i < 3);
-
-	assert(j >= 0);
-	assert(j < 3);
-
-	int nextBoard = 3 * i + j;
-
-	return isClosed(nextBoard) ? -1 : nextBoard;
-}
-
 
 void Board::getEmptyPositions(const int board, std::set<std::pair<int, int> > &emptyPositions) const
 {
@@ -407,25 +397,6 @@ void Board::applyMove(const std::pair<int, int> & move, const int player) { //  
 
 	std::set< std::pair <int, int> > positionsToClose;
 	int board = getBoard(move); // board-ul unde pun mutarea
-	//
-	//if (_macroboard[board] == -1)
-	//	getEmptyPositions(positionsToClose); // perechi 0..2
-	//else
-	//	getEmptyPositions( board, positionsToClose);
-
-	//std::pair <int, int> GetRelativePosition = Position::getRelativePosition(move);
-
-	//int goNextBoard = next(GetRelativePosition);
-
-
-	//for (auto &x : positionsToClose) { // am inchis board-ul cu player-ul care muta
-	//	if (GetRelativePosition == x) {
-	//		_macroboard[board] = player;
-	//	}
-	//}
-
-
-	//*/
 
 }
 bool Board::isFinished(const int board) const

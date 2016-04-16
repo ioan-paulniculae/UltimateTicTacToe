@@ -13,7 +13,6 @@ public:
 	bool isClosed(const int board) const;
 
 	int next(const std::pair<int, int>& move) const;
-	int next(const int i, const int j) const;
 	int getBoard(const int value) const;
 	int getBoard(const std::pair<int, int> & move) const;
 	//returns all unique closing positions in the board for the player
