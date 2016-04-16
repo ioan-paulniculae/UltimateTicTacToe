@@ -155,6 +155,11 @@ void Board::twoOnSecondDiagonal(const int board,
 
 void Board::updateMacroboard(const std::pair<int, int>& move)
 {
+	for (int i = 0; i < 9; ++i) {
+		if (_macroboard[i] == -1) {
+			_macroboard[i] = 0;
+		}
+	}
 
 	int nextBoard = next(move);
 	bool allFlag = false;
@@ -512,7 +517,7 @@ void Board::applyMove(const std::pair<int, int> & move, const int player)
 		}
 	}
 	else {
-		_macroboard[board] = 0;
+		
 	}
 	updateMacroboard(move);
 
