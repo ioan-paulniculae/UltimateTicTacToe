@@ -407,25 +407,6 @@ void Board::applyMove(const std::pair<int, int> & move, const int player) { //  
 
 	std::set< std::pair <int, int> > positionsToClose;
 	int board = getBoard(move); // board-ul unde pun mutarea
-	//
-	//if (_macroboard[board] == -1)
-	//	getEmptyPositions(positionsToClose); // perechi 0..2
-	//else
-	//	getEmptyPositions( board, positionsToClose);
-
-	//std::pair <int, int> GetRelativePosition = Position::getRelativePosition(move);
-
-	//int goNextBoard = next(GetRelativePosition);
-
-
-	//for (auto &x : positionsToClose) { // am inchis board-ul cu player-ul care muta
-	//	if (GetRelativePosition == x) {
-	//		_macroboard[board] = player;
-	//	}
-	//}
-
-
-	//*/
 
 }
 bool Board::isFinished(const int board) const
