@@ -501,7 +501,6 @@ void Board::applyMove(const std::pair<int, int> & move, const int player)
 	int index = Position::absoluteToAbsolute(move);
 
 	_field[index] = player;
-	std::cerr << move.first << ' ' << move.second << ' ' << index << std::endl;
 	int id;
 
 	if (finishes(move, player, id)) {
