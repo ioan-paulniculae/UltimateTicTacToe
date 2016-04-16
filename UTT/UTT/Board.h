@@ -12,7 +12,9 @@ public:
 	bool isValid(const std::pair<int, int> move) const;
 	bool isEmpty(const int board) const;
 	bool isClosed(const int board) const;
-
+	bool gameIsFinished(const int player) const;
+	int eval(const int player)const;
+	int boardEval(const int board, const int player)const;
 	int next(const std::pair<int, int>& move) const;
 	int getBoard(const int value) const;
 	int getBoard(const std::pair<int, int> & move) const;

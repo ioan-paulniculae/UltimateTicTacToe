@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Board.h"
 #include "Position.h"
+#include "Utility.h"
 #include <string>
 #include <cassert>
 #include <vector>
@@ -46,6 +47,20 @@ bool Board::isClosed(const int board) const
 {
 	return !(Board::_macroboard[board] == 0 ||
 		   Board::_macroboard[board] == -1);
+}
+
+bool Board::gameIsFinished(const int player) const
+{
+	bool firstDiagonal = _macroboard[0] == player && _macroboard[4] == player && _macroboard[8] == player;
+	bool secondDiagonal = _macroboard[2] == player && _macroboard[4] == player && _macroboard[6] == player;
+	bool firstColumn = _macroboard[0] == player && _macroboard[3] == player && _macroboard[6] == player;
+	bool secondColumn = _macroboard[1] == player && _macroboard[4] == player && _macroboard[7] == player;
+	bool thirdColumn = _macroboard[2] == player && _macroboard[5] == player && _macroboard[8] == player;
+	bool firstRow = _macroboard[0] == player && _macroboard[1] == player && _macroboard[2] == player;
+	bool secondRow = _macroboard[3] == player && _macroboard[4] == player && _macroboard[5] == player;
+	bool thirdRow = _macroboard[6] == player && _macroboard[7] == player && _macroboard[8] == player;
+
+	return firstDiagonal || secondDiagonal || firstColumn || secondColumn || thirdColumn || firstRow || secondRow || thirdRow;
 }
 
 void Board::addIfThree(const int player,
@@ -238,6 +253,46 @@ int Board::getBoard(const int value) const{
 }
 
 
+
+int Board::eval(const int player) const
+{
+	if (gameIsFinished(player))
+	{
+		return std::numeric_limits<int>::max();
+	}
+
+	if (gameIsFinished(UTTT::Core::Utility::getNextPlayer(player)))
+	{
+		return -std::numeric_limits<int>::max();
+	}
+	int scor = 0;
+	for (int i = 0; i < 9; i++)
+	{
+		scor += boardEval(i, player) - boardEval(i, UTTT::Core::Utility::getNextPlayer(player));
+	}
+
+	return scor;
+}
+
+int Board::boardEval(const int board, const int player) const
+{
+	std::vector<int> boardPositions;
+	Position::getBoardPositions(this, board, boardPositions);
+	int cellWeight[9] =
+	{2, 1, 2,
+	 1, 3, 1,
+	 2, 1, 2
+	};
+	int myScore = 0;
+	for (int i = 0; i < boardPositions.size(); i++)
+	{
+		if (_field[boardPositions[i]] == player)
+		{
+			myScore += cellWeight[i];
+		}
+	}
+	return myScore;
+}
 
 int Board::next(const std::pair<int, int>& move) const
 {
