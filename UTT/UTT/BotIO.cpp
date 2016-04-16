@@ -50,6 +50,7 @@ std::pair<int, int> BotIO::action(const std::string &type, int time) {
 	_playingBoard.getEmptyPositions(positions);
 	for (auto &x : positions) {
 		ver = _playingBoard.getBoard(x);
+		std::cerr << ver << ' ' << x.first << ' ' << x.second << std::endl;
 
 	}
 	for (auto b : playingBoards)
