@@ -399,11 +399,11 @@ bool Board::isFinished(const int board) const
 
 	std::set < std::pair<int, int> > emptyPositions;
 
-	if (_macroboard[board] != 0)
+	if (_macroboard[board] == 1 || _macroboard[board] == 2 )
 	{
 		return true;
 	}
-	else
+	else 
 	{
 		getEmptyPositions(board, emptyPositions);
 
@@ -411,6 +411,7 @@ bool Board::isFinished(const int board) const
 		{
 			return true;
 		}
+		return false;
 	}
 
 }

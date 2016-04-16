@@ -46,7 +46,7 @@ std::pair<int, int> BotIO::action(const std::string &type, int time) {
 	std::vector<std::pair<int, int> > pos;
 	std::vector < std::pair<int, int> > blankPositions;
 	_playingBoard.getCurrentPlayingBoards(playingBoards);
-	/*
+	
 	for (auto b : playingBoards)
 	{
 		if (_playingBoard.getClosingPositions(b, getBotId(), positions))//if i can close
@@ -68,15 +68,15 @@ std::pair<int, int> BotIO::action(const std::string &type, int time) {
 			return *pos.begin();
 		}
 	}
-	*/
+	
 	//TESTE
 	//bool test = _playingBoard.isValid(32);
 	//std::set<std::pair<int,int> > vector;
 	//Board::getEmptyPositions(vector);
-	bool test = _playingBoard.isFinished(0);
-	bool test1 =_playingBoard.isFinished(2);
-	bool test2 = _playingBoard.isFinished(4);
-	bool test3 = _playingBoard.isFinished(5);
+	//bool test = _playingBoard.isFinished(3);
+	//bool test1 =_playingBoard.isFinished(2);
+	//bool test2 = _playingBoard.isFinished(4);
+	//bool test3 = _playingBoard.isFinished(5);
 	
 	return getRandomFreeCell();
 
