@@ -50,9 +50,10 @@ std::pair<int, int> BotIO::action(const std::string &type, int time) {
 	_playingBoard.getEmptyPositions(positions);
 	for (auto &x : positions) {
 		ver = _playingBoard.getBoard(x);
-		std::cerr << ver << ' ' << x.first << ' ' << x.second << std::endl;
+		std::cerr << _playingBoard;
 
 	}
+	positions.clear();
 	for (auto b : playingBoards)
 	{
 		if (_playingBoard.getClosingPositions(b, getBotId(), positions))//if i can close

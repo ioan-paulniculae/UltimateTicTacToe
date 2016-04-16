@@ -481,3 +481,34 @@ Board::~Board()
 	_field.clear();
 	_macroboard.clear();
 }
+
+std::ostream & operator<<(std::ostream & os, const Board & b)
+{
+	os << "macroboard\n";
+	int k = 0;
+	for (int i = 0; i < 3; i++) {
+		for (int j = 0; j < 3; j++)
+		{
+			os << b._macroboard[k] << ' ';
+			k++;
+		}
+		os << std::endl;
+	}
+
+	os << "\nplayingBoard\n";
+	k = 0;
+	for (int i = 0; i < 9; i++) {
+		for (int j = 0; j < 9; j++)
+		{
+			os << b._field[k] << ' ';
+			k++;
+			if (j % 3 == 2)
+				os << ' ';
+		}
+		if (i % 3 == 2)
+			os << std::endl;
+		os << std::endl;
+	}
+	return os;
+}
+ 

@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <set>
+#include<iostream>
 class Board
 {
 
@@ -47,6 +48,7 @@ public:
 	~Board();
 	std::vector<int>_field;
 	std::vector<int>_macroboard;
+	friend std::ostream& operator<<(std::ostream& os, const Board& b);
 private:
 
 
