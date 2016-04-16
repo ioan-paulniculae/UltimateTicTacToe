@@ -438,16 +438,26 @@ bool Board::isFinished(const int board) const
 
 }
 bool Board::finishes(std::pair<int , int> move , const int player , int &id) const {
-	std::set< std::pair<int, int> > allPositionsToClose;
+	std::set< std::pair<int, int> > positions;
 	int board = getBoard(move);
 	std::pair<int, int> toRelative = Position::getRelativePosition(move);
-	getClosingPositions(board, player, allPositionsToClose);
-	for (auto& position : allPositionsToClose) {
+	getEmptyPositions(board, positions);
+	if (positions.size() == 1) {
+		if (Position::getMatrixPosition(this, board, *positions.begin()) == move) {
+			id = 0;
+			return true;
+		}
+	}
+	positions.clear();
+	getClosingPositions(board, player, positions);
+	
+	for (auto& position : positions) {
 		if (toRelative == position) {
 			id = player;
 			return true;
 		}
 	}
+	id = -1;
 	return false;
 }
 
