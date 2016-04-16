@@ -222,7 +222,7 @@ int Board::next(const int i, const int j) const
 }
 
 
-void Board::getEmptyPositions(const int board, std::vector<std::pair<int, int> > &emptyPositions) const
+void Board::getEmptyPositions(const int board, std::set<std::pair<int, int> > &emptyPositions) const
 {
 
 	int i, j;
@@ -233,7 +233,7 @@ void Board::getEmptyPositions(const int board, std::vector<std::pair<int, int> >
 			start = getPosition(board, i, j);
 
 			if (_field[start] == 0) {
-				emptyPositions.push_back(std::make_pair(i, j));
+				emptyPositions.insert(std::make_pair(i, j));
 			}
 		}
 	}
@@ -256,7 +256,7 @@ bool Board::throwOpponentNoAdvantage(int board, const int opponent, std::vector<
 	assert(1 <= opponent && opponent <= 2);
 
 	int newboard;
-	std::vector<std::pair<int, int> > emptyPositions;
+	std::set<std::pair<int, int> > emptyPositions;
 	std::set< std::pair <int, int> > closingPositions;
 
 	getEmptyPositions(board, emptyPositions);
@@ -294,7 +294,7 @@ bool Board::throwOpponentInBlankGame(int board, const int opponent, std::vector<
 	assert(1 <= opponent && opponent <= 2);
 
 	int newboard;
-	std::vector<std::pair<int, int> > emptyPositions;
+	std::set<std::pair<int, int> > emptyPositions;
 	std::set< std::pair <int, int> > closingPositions;
 
 	getEmptyPositions(board, emptyPositions);
@@ -331,14 +331,14 @@ bool Board::throwOpponentInBlankGame(int board, const int opponent, std::vector<
 bool Board::playingBoards(const int move) const
 {
 	int board = Board::getBoard(move);
-	std::vector<std::pair<int, int> > emptyPositions;
+	std::set<std::pair<int, int> > emptyPositions;
 
 	if (_macroboard[board] == 0)
 	{
 		getEmptyPositions(board, emptyPositions);
 
 		if (emptyPositions.size())
-		{
+		{ 
 			return true;
 		}
 	}
@@ -369,17 +369,18 @@ void Board::getEmptyPositions(std::set<std::pair<int,int> > &emptyPositions) con
 	int i;
 	int j;
 	std::pair<int,int> relativePosition;
-	std::vector<std::pair<int, int> > positions;
-
+	std::set<std::pair<int, int> > positions;
+	std::set<std::pair<int, int> >::iterator position;
 	for (i = 0; i < 9; i++)
 	{
 		if (playingBoards(getPosition(i, 0, 0)))
 		{
 			getEmptyPositions(i, positions);
-
 			for (j = 0; j < positions.size(); j++)
 			{
-				relativePosition = Position::getMatrixPosition(this, i, positions[j]);
+				position = positions.begin();
+				std::advance(position, j);
+				relativePosition = Position::getMatrixPosition(this, i, *position);
 				emptyPositions.insert( relativePosition );
 			}
 
