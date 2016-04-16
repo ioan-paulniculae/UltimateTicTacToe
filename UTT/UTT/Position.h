@@ -16,6 +16,6 @@ public:
 
 	static int getBoard(const int value);
 
-
+	static void getBoardPositions(const Board *b, const int board, std::vector<int> &boardPositions);
 };
 

@@ -49,9 +49,9 @@ std::pair<int, int> BotIO::action(const std::string &type, int time) {
 	int ver;
 	_playingBoard.getEmptyPositions(positions);
 	for (auto &x : positions) {
-		ver = _playingBoard.getBoard(x);
-		std::cerr << ver << ' ' << x.first << ' ' << x.second << std::endl;
-
+		if (_playingBoard.isValid(x)) {
+			_playingBoard.applyMove(x, getBotId());
+		}
 	}
 	for (auto b : playingBoards)
 	{

@@ -153,6 +153,10 @@ void Board::updateMacroboard(const std::pair<int, int>& move)
 			}
 		}
 	}
+	else
+	{
+		allFlag = true;
+	}
 
 	if (allFlag)
 	{
@@ -442,6 +446,7 @@ void Board::applyMove(const std::pair<int, int> & move, const int player)
 	int index = Position::absoluteToAbsolute(move);
 
 	_field[index] = player;
+	std::cerr << move.first << ' ' << move.second << ' ' << index << std::endl;
 	int id;
 
 	if (finishes(move, player, id)) {
