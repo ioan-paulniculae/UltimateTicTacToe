@@ -17,6 +17,7 @@ public:
 	int eval(const int player)const;
 	int boardEval(const int board, const int player)const;
 	int next(const std::pair<int, int>& move) const;
+	int goNextBoard(const std::pair<int, int>& move) const;
 	int getBoard(const int value) const;
 	int getBoard(const std::pair<int, int> & move) const;
 	//returns all unique closing positions in the board for the player

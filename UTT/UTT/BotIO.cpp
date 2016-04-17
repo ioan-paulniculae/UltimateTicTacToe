@@ -85,7 +85,7 @@ std::pair<int, int> BotIO::action(const std::string &type, int time) {
 	
 	std::vector<int> playingBoards;
 	std::set<std::pair<int, int> > positions;
-	std::vector<std::pair<int, int> > pos;
+	std::vector<std::pair<int, int> > pos;%
 	std::vector < std::pair<int, int> > blankPositions;
 	_playingBoard.getCurrentPlayingBoards(playingBoards);
 	int ver;
@@ -93,7 +93,6 @@ std::pair<int, int> BotIO::action(const std::string &type, int time) {
 	for (auto &x : positions) {
 		ver = _playingBoard.getBoard(x);
 		std::cerr << _playingBoard;
-
 	}
 	positions.clear();
 	for (auto b : playingBoards)
