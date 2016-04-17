@@ -41,37 +41,46 @@ void BotIO::loop() {
 	}
 }
 
-std::pair<int, std::pair<int, int>> UTTT::Core::BotIO::minimax(Board* b, const int player, const int depth)
+std::pair<int, std::pair<int, int>> UTTT::Core::BotIO::minimax(Board b, const int player, int alpha, int beta, const int depth)
 {
 	if (depth == 0)
 	{
-		return std::make_pair(b->eval(player), std::make_pair(-1, -1));
+		return std::make_pair(b.eval(player), std::make_pair(-1, -1));
 	}
 	std::set<std::pair<int, int> > emptyPositions;
-	b->getEmptyPositions(emptyPositions);
-	Board previousBoard = Board(*b);
-	int globalScore = -std::numeric_limits<int>::max();
-	int current;
+	b.getEmptyPositions(emptyPositions);
+	Board previousBoard = Board(b);
+	std::pair<int, std::pair<int, int> > current;
 	std::pair<int, int> toMove;
 	for (auto pos : emptyPositions)
 	{
-		if (b->isValid(pos))
+		if (b.isValid(pos))
 		{
-			b->applyMove(pos, player);
-			current = minimax(b, UTTT::Core::Utility::getNextPlayer(player), depth - 1).first;
-			if (current > globalScore)
+			//std::cerr << b;
+			b.applyMove(pos, player);
+			//std::cerr << b;
+			current = minimax(b, UTTT::Core::Utility::getNextPlayer(player), -beta, -alpha, depth - 1);
+			current.first *= -1;
+			if (current.first >= beta)
 			{
-				toMove = pos;
-				globalScore = current;
+				return std::make_pair(beta, pos);
 			}
+			if (current.first  > alpha)
+			{
+				alpha = current.first;
+				toMove = pos;
+			}
+			b = Board(previousBoard);
 		}
 	}
 
-	return std::make_pair(globalScore, toMove);
+	return std::make_pair(alpha, toMove);
 }
 	
 std::pair<int, int> BotIO::action(const std::string &type, int time) {
-	return minimax(&_playingBoard, getBotId(), 2).second;
+	int alpha = -1000;
+	int beta = 1000;
+	return minimax(_playingBoard, getBotId(),alpha, beta, 6).second;
 	
 	
 	std::vector<int> playingBoards;

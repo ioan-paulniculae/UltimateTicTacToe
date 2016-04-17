@@ -269,7 +269,11 @@ int Board::eval(const int player) const
 	{
 		return std::numeric_limits<int>::max();
 	}
-
+	int cellWeight[9] =
+	{ 2, 1, 2,
+	  1, 3, 1,
+	  2, 1, 2
+	};
 	if (gameIsFinished(UTTT::Core::Utility::getNextPlayer(player)))
 	{
 		return -std::numeric_limits<int>::max();
@@ -277,7 +281,7 @@ int Board::eval(const int player) const
 	int scor = 0;
 	for (int i = 0; i < 9; i++)
 	{
-		scor += boardEval(i, player) - boardEval(i, UTTT::Core::Utility::getNextPlayer(player));
+		scor += cellWeight[i] * (boardEval(i, player) - boardEval(i, UTTT::Core::Utility::getNextPlayer(player)));
 	}
 
 	return scor;
@@ -307,7 +311,7 @@ int Board::next(const std::pair<int, int>& move) const
 {
 	std::pair<int,int> relativeMove = Position::getRelativePosition(move);
 
-	int nextBoard = 3 * relativeMove.first + relativeMove.second;
+	int nextBoard = 3 * relativeMove.second + relativeMove.first;
 
 	return isFinished(nextBoard) ? -1 : nextBoard;
 }
@@ -424,32 +428,16 @@ bool Board::throwOpponentInBlankGame(int board, const int opponent, std::vector<
 
 bool Board::playingBoards(const int move) const
 {
-	int board = Board::getBoard(move);
-	std::set<std::pair<int, int> > emptyPositions;
-
-	if (_macroboard[board] == 0)
-	{
-		getEmptyPositions(board, emptyPositions);
-
-		if (emptyPositions.size())
-		{
-			return true;
-		}
-	}
-
-	if (_macroboard[board] == -1)
-	{
-		return true;
-	}
-
-	return false;
+	return 1;
 }
 
 bool Board::isValid(const int move) const {
 
 	if (_field[move] == 0)
 	{
-		if (playingBoards(move))
+		int board = Board::getBoard(move);
+
+		if (_macroboard[board] == -1)
 		{
 			return true;
 		}
@@ -472,7 +460,7 @@ void Board::getEmptyPositions(std::set<std::pair<int,int> > &emptyPositions) con
 	std::set<std::pair<int, int> >::iterator position;
 	for (i = 0; i < 9; i++)
 	{
-		if (playingBoards(getPosition(i, 0, 0)))
+		if (_macroboard[i] == -1)
 		{
 			getEmptyPositions(i, positions);
 			for (j = 0; j < positions.size(); j++)
