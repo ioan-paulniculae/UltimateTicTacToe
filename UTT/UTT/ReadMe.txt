@@ -63,6 +63,21 @@ Pentru implementare am folosit urmatoarele functii:
 	Functia primeste ca parametrii board-ul, player-ul si un vector in care retine pozitiile in care pot inchide, verifica
 	daca player-ul a pus de doua ori pe diagonala secundara apoi apeleaza functia addIfTree.
 
+- bool isValid(const int move) const;
+	Functia primeste ca parametru o mutare si intoarce true daca se poate pune pe acea pozitie sau false in caz contrar.
+
+- bool isValid(const std::pair<int, int> move) const;
+	Functia primeste ca parametru o pereche [0-9] si intoarce true daca se poate pune pe acea pozitie sau false in caz contrar.
+
+- bool isClosed(const int board) const;
+	Functia primeste ca parametru un board si intoarce true daca board-ul este inschis sau false in caz contrar.
+
+- bool playingBoards(const int move) const;
+	Functia primeste ca parametru o mutare si intoarce true daca se poate pune pe acea pozitie sau false in caz contrar.
+
+- bool isFinished(const int board) const;
+	Functia primeste ca parametru un board si intoarce true daca jocul este inchis, false in caz contrar.
+
 	In Position.h :
 
 - static int getPosition(const int board, const int i, const int j);
