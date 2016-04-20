@@ -72,11 +72,11 @@ Pentru implementare am folosit urmatoarele functii:
 - bool isClosed(const int board) const;
 	Functia primeste ca parametru un board si intoarce true daca board-ul este inschis sau false in caz contrar.
 
-- bool playingBoards(const int move) const;
-	Functia primeste ca parametru o mutare si intoarce true daca se poate pune pe acea pozitie sau false in caz contrar.
-
 - bool isFinished(const int board) const;
 	Functia primeste ca parametru un board si intoarce true daca jocul este inchis, false in caz contrar.
+
+- void getEmptyPositions(std::set<std::pair<int, int> > &emptyPositions) const;
+	Functia primeste ca parametru prin referinta un set in are retine pozitiile libere din toate board-urile in care se mai poate juca.
 
 	In Position.h :
 
