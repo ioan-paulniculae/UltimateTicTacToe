@@ -56,9 +56,7 @@ std::pair<int, std::pair<int, int>> UTTT::Core::BotIO::minimax(Board b, const in
 	{
 		if (b.isValid(pos))
 		{
-			//std::cerr << b;
 			b.applyMove(pos, player);
-			//std::cerr << b;
 			current = minimax(b, UTTT::Core::Utility::getNextPlayer(player), -beta, -alpha, depth - 1);
 			current.first *= -1;
 			if (current.first >= beta)
@@ -73,63 +71,50 @@ std::pair<int, std::pair<int, int>> UTTT::Core::BotIO::minimax(Board b, const in
 			b = Board(previousBoard);
 		}
 	}
-
 	return std::make_pair(alpha, toMove);
 }
 	
 std::pair<int, int> BotIO::action(const std::string &type, int time) {
-	int alpha = -1000;
-	int beta = 1000;
-	return minimax(_playingBoard, getBotId(),alpha, beta, 6).second;
-	
-	
-	std::vector<int> playingBoards;
-	std::set<std::pair<int, int> > positions;
-	std::vector<std::pair<int, int> > pos;
-	std::vector < std::pair<int, int> > blankPositions;
-	_playingBoard.getCurrentPlayingBoards(playingBoards);
-	int ver;
-	_playingBoard.getEmptyPositions(positions);
-	for (auto &x : positions) {
-		ver = _playingBoard.getBoard(x);
-		std::cerr << _playingBoard;
+	return minimax(_playingBoard, getBotId(),-INF, INF, 5).second;
 
-	}
-	positions.clear();
-	for (auto b : playingBoards)
-	{
-		if (_playingBoard.getClosingPositions(b, getBotId(), positions))//if i can close
-		{
-			return Utility::closeGame(&_playingBoard, b, getOponentId(), positions);
-		}
-		if (_playingBoard.getClosingPositions(b, getOponentId(), positions))//if opponent can close
-		{
-			return Utility::blockGame(&_playingBoard, b, getOponentId(), positions);//block the fucker
-		}
-		//to do: ALL
-		//minimax 
-		if (_playingBoard.throwOpponentInBlankGame(b, getOponentId(), blankPositions))
-		{
-			return *blankPositions.begin();
-		}
-		if (_playingBoard.throwOpponentNoAdvantage(b, getOponentId(), pos))
-		{
-			return *pos.begin();
-		}
-	}
+	//OLD ALGORITHM -- TO BE USED IN A PROBABILISTIC METHOD
+	//std::vector<int> playingBoards;
+	//std::set<std::pair<int, int> > positions;
+	//std::vector<std::pair<int, int> > pos;
+	//std::vector < std::pair<int, int> > blankPositions;
+	//_playingBoard.getCurrentPlayingBoards(playingBoards);
+	//int ver;
+	//_playingBoard.getEmptyPositions(positions);
+	//for (auto &x : positions) {
+	//	ver = _playingBoard.getBoard(x);
+	//	std::cerr << _playingBoard;
 
-	//TESTE
-	//bool test = _playingBoard.isValid(32);
-	//std::set<std::pair<int,int> > vector;
-	//Board::getEmptyPositions(vector);
-	//bool test = _playingBoard.isFinished(3);
-	//bool test1 =_playingBoard.isFinished(2);
-	//bool test2 = _playingBoard.isFinished(4);
-	//bool test3 = _playingBoard.isFinished(5);
-	
-	return getRandomFreeCell();
+	//}
+	//positions.clear();
+	//for (auto b : playingBoards)
+	//{
+	//	if (_playingBoard.getClosingPositions(b, getBotId(), positions))//if i can close
+	//	{
+	//		return Utility::closeGame(&_playingBoard, b, getOponentId(), positions);
+	//	}
+	//	if (_playingBoard.getClosingPositions(b, getOponentId(), positions))//if opponent can close
+	//	{
+	//		return Utility::blockGame(&_playingBoard, b, getOponentId(), positions);//block the fucker
+	//	}
+	//	//to do: ALL
+	//	//minimax 
+	//	if (_playingBoard.throwOpponentInBlankGame(b, getOponentId(), blankPositions))
+	//	{
+	//		return *blankPositions.begin();
+	//	}
+	//	if (_playingBoard.throwOpponentNoAdvantage(b, getOponentId(), pos))
+	//	{
+	//		return *pos.begin();
+	//	}
+	//}
 
-	
+	//return getRandomFreeCell();
+
 }
 
 std::pair<int, int> BotIO::getRandomFreeCell() const {

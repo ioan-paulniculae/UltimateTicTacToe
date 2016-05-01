@@ -61,5 +61,7 @@ private:
 	void twoOnFirstDiagonal(const int board, const int player, std::vector< std::pair<int, int> > &PositionToClose) const;
 	void twoOnSecondDiagonal(const int board, const int player, std::vector< std::pair<int, int> > &PositionToClose) const;
 	void updateMacroboard(const std::pair<int, int>& move);
-
+	bool hasTwoOnARow(const int player, const int first, const int second, const int third) const;
+	bool checkConfiguration(const int player, const int first, const int second, const int third, std::vector<int>& weights) const;
+	bool scanMacroboardForTwo(const int player, std::vector<int>& weights) const;
 };
