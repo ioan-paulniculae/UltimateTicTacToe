@@ -405,6 +405,26 @@ int Board::next(const std::pair<int, int>& move) const
 	return isFinished(nextBoard) ? -1 : nextBoard;
 }
 
+// alex -> in ce board merge dupa "move" tarsnpus in relative position 0..2 0..2
+// ATENITIE --> NETESTATA
+int Board::goNextBoard(const std::pair<int, int>& move) const 
+{
+
+	std::pair <int, int> RelativePosition = Position::getRelativePosition(move);
+
+	if (RelativePosition.first == 0) {
+		return 0 + RelativePosition.second;
+	}
+	else if (RelativePosition.first == 1) {
+		return 3 + RelativePosition.second;
+	}
+	else {
+		return 6 + RelativePosition.second;
+	}
+}
+
+
+
 void Board::getEmptyPositions(const int board, std::set<std::pair<int, int> > &emptyPositions) const
 {
 
