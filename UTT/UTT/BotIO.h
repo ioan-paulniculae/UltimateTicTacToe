@@ -18,7 +18,6 @@ namespace UTTT {
 			int _timePerMove;
 			int _botId;
 			Board _playingBoard;
-			std::pair<int, std::pair<int, int> > minimax(Board b, const int player, int alpha, int beta, const int depth);
 			std::vector<std::string> _playerNames;
 			std::string _myName;
 			// dynamic settings
@@ -30,7 +29,9 @@ namespace UTTT {
 			//return value must be position in x,y presentation
 			//(use std::make_pair(x, y))
 			std::pair<int, int> action(const std::string &type, int time);
-
+			std::pair<int, std::pair<int, int> > minimax(Board b, const int player, int alpha, int beta, const int depth);
+			std::pair<int, int> heuristic();
+			bool goMinimax() const;
 			//Returns random free cell.
 			std::pair<int, int> getRandomFreeCell() const;
 			void processCommand(const std::vector<std::string> &command);

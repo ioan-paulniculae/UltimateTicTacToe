@@ -6,7 +6,7 @@
 #include <ctime>
 #include <time.h>
 #include <random>
-
+#include <queue>
 using namespace UTTT::Core;
 
 //Bot initialization.
@@ -73,48 +73,66 @@ std::pair<int, std::pair<int, int>> UTTT::Core::BotIO::minimax(Board b, const in
 	}
 	return std::make_pair(alpha, toMove);
 }
+
+std::pair<int, int> UTTT::Core::BotIO::heuristic()
+{
+	std::vector<int> playingBoards;
+	std::set<std::pair<int, int> > positions;
+	std::vector<std::pair<int, int> > pos;
+	std::vector < std::pair<int, int> > blankPositions;
+	_playingBoard.getCurrentPlayingBoards(playingBoards);
+	std::priority_queue<std::pair<int, std::pair<int, int> > >que;
+	for (auto b : playingBoards)
+	{
+		if (_playingBoard.getClosingPositions(b, getBotId(), positions))//if i can close
+		{
+			que.push(std::make_pair(100, Utility::closeGame(&_playingBoard, b, getOponentId(), positions)));
+		}
+		if (_playingBoard.getClosingPositions(b, getOponentId(), positions))//if opponent can close
+		{
+			que.push(std::make_pair(95, Utility::blockGame(&_playingBoard, b, getOponentId(), positions)));//block
+		}
+
+		if (_playingBoard.throwOpponentInBlankGame(b, getOponentId(), blankPositions))
+		{
+			que.push(std::make_pair(90, *blankPositions.begin()));
+		}
+		if (_playingBoard.throwOpponentNoAdvantage(b, getOponentId(), pos))
+		{
+			que.push(std::make_pair(85, *pos.begin()));
+		}
+	}
+	if (que.size())
+	{
+		return que.top().second;
+	}
+	return getRandomFreeCell();
+}
+
+bool UTTT::Core::BotIO::goMinimax() const
+{
+	if (_move <= 13)
+	{
+		return false;
+	}
+	if (_move <= 20)
+	{
+		int random = rand() % 100;
+		if (random < 50)
+		{
+			return false;
+		}
+	}
+	return true;
+}
 	
 std::pair<int, int> BotIO::action(const std::string &type, int time) {
-	return minimax(_playingBoard, getBotId(),-INF, INF, 5).second;
 
-	//OLD ALGORITHM -- TO BE USED IN A PROBABILISTIC METHOD
-	//std::vector<int> playingBoards;
-	//std::set<std::pair<int, int> > positions;
-	//std::vector<std::pair<int, int> > pos;
-	//std::vector < std::pair<int, int> > blankPositions;
-	//_playingBoard.getCurrentPlayingBoards(playingBoards);
-	//int ver;
-	//_playingBoard.getEmptyPositions(positions);
-	//for (auto &x : positions) {
-	//	ver = _playingBoard.getBoard(x);
-	//	std::cerr << _playingBoard;
-
-	//}
-	//positions.clear();
-	//for (auto b : playingBoards)
-	//{
-	//	if (_playingBoard.getClosingPositions(b, getBotId(), positions))//if i can close
-	//	{
-	//		return Utility::closeGame(&_playingBoard, b, getOponentId(), positions);
-	//	}
-	//	if (_playingBoard.getClosingPositions(b, getOponentId(), positions))//if opponent can close
-	//	{
-	//		return Utility::blockGame(&_playingBoard, b, getOponentId(), positions);//block the fucker
-	//	}
-	//	//to do: ALL
-	//	//minimax 
-	//	if (_playingBoard.throwOpponentInBlankGame(b, getOponentId(), blankPositions))
-	//	{
-	//		return *blankPositions.begin();
-	//	}
-	//	if (_playingBoard.throwOpponentNoAdvantage(b, getOponentId(), pos))
-	//	{
-	//		return *pos.begin();
-	//	}
-	//}
-
-	//return getRandomFreeCell();
-
+	if (goMinimax())
+	{
+		return minimax(_playingBoard, getBotId(), -INF, INF, 5).second;
+	}
+	return heuristic();
 }
 
 std::pair<int, int> BotIO::getRandomFreeCell() const {
