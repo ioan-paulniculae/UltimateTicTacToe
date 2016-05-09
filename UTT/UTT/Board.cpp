@@ -715,4 +715,122 @@ std::ostream & operator<<(std::ostream & os, const Board & b)
 	}
 	return os;
 }
- 
+
+/// aici e doar pentru player nu si pentru opponent
+/// nu e si pentru opponent
+void Board::heuristic(const int board, const std::pair<int,int> move, const int player, const int opponent, int &score)
+{
+	int id = 0;
+	int number, i, j;
+	bool ok;
+	
+	if (finishes(move, player, id))
+	{
+		score += 5;
+		if (board == 4)
+		{
+			score += 10;
+		}
+		else if (board == 0 || board == 2 || board == 6 || board == 8)
+		{
+			score += 3;
+		}
+	}
+
+	std::pair<int, int> pair = Position::getRelativePosition(move);
+	if (pair.first == 1 && pair.second == 1)
+	{
+		score += 3;
+	}
+	if (board == 4)
+	{
+		score += 3;
+	}
+
+	// rows
+	for (i = 0; i < 3; i++)
+	{
+		number = 0;
+		ok = true;
+		for (j = 0; j < 3; ++j) {
+			if (_macroboard[3 * i + j] == player) {
+				number++;
+			}
+			if (_macroboard[3 * i + j] == opponent) {
+				ok = false;
+			}
+		}
+		if (ok == true && number == 2) {
+			score += 4;
+		}
+	}
+
+
+	// columns
+	for (i = 0; i < 3; i++)
+	{
+		number = 0;
+		ok = true;
+		for (j = 0; j < 3; ++j) {
+			if (_macroboard[i + 3 * j] == player) {
+				number++;
+			}
+			if (_macroboard[i + 3 * j] == opponent) {
+				ok = false;
+			}
+		}
+		if (ok == true && number == 2) {
+			score += 4;
+		}
+	}
+
+
+	// 1st diagonal
+	number = 0;
+	ok = true;
+	for (i = 0; i < 9; i += 4) {
+		if (_macroboard[i] == player) {
+			number++;
+		}
+		if (_macroboard[i] == opponent) {
+			ok = false;
+		}
+	}
+	if (ok == true && number == 2) {
+		score += 4;
+	}
+
+	// 2nd diagonal
+	number = 0;
+	ok = true;
+	for (i = 2; i < 7; i += 2) {
+		if (_macroboard[i] == player) {
+			number++;
+		}
+		if (_macroboard[i] == opponent) {
+			ok = false;
+		}
+	}
+	if (ok == true && number == 2) {
+		score += 4;
+	}
+
+	//pentru boardurile mici
+	std::set<std::pair<int, int>> positions;
+	
+	int i;
+
+	for (i = 0; i < 9; i++)
+	{
+		getClosingPositions(i, player, positions);
+	}
+
+	for (auto &pos : positions)
+	{
+		if (pos == move)
+		{
+			score += 2;
+			break;
+		}
+	}
+}
