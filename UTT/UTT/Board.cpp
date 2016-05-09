@@ -718,7 +718,7 @@ std::ostream & operator<<(std::ostream & os, const Board & b)
 
 /// aici e doar pentru player nu si pentru opponent
 /// nu e si pentru opponent
-void Board::heuristic(const int board, const std::pair<int,int> move, const int player, const int opponent, int &score)
+void Board::heuristic(const int board, const std::pair<int,int> move, const int player, const int opponent, int &score, const int multiplier)
 {
 	int id = 0;
 	int number, i, j;
@@ -726,25 +726,25 @@ void Board::heuristic(const int board, const std::pair<int,int> move, const int 
 	
 	if (finishes(move, player, id))
 	{
-		score += 5;
+		score += 5 * multiplier;
 		if (board == 4)
 		{
-			score += 10;
+			score += 10 * multiplier;
 		}
 		else if (board == 0 || board == 2 || board == 6 || board == 8)
 		{
-			score += 3;
+			score += 3 * multiplier;
 		}
 	}
 
 	std::pair<int, int> pair = Position::getRelativePosition(move);
 	if (pair.first == 1 && pair.second == 1)
 	{
-		score += 3;
+		score += 3 * multiplier;
 	}
 	if (board == 4)
 	{
-		score += 3;
+		score += 3 * multiplier;
 	}
 
 	// rows
@@ -761,7 +761,7 @@ void Board::heuristic(const int board, const std::pair<int,int> move, const int 
 			}
 		}
 		if (ok == true && number == 2) {
-			score += 4;
+			score += 4 * multiplier;
 		}
 	}
 
@@ -780,7 +780,7 @@ void Board::heuristic(const int board, const std::pair<int,int> move, const int 
 			}
 		}
 		if (ok == true && number == 2) {
-			score += 4;
+			score += 4 * multiplier;
 		}
 	}
 
@@ -797,7 +797,7 @@ void Board::heuristic(const int board, const std::pair<int,int> move, const int 
 		}
 	}
 	if (ok == true && number == 2) {
-		score += 4;
+		score += 4 * multiplier;
 	}
 
 	// 2nd diagonal
@@ -812,7 +812,7 @@ void Board::heuristic(const int board, const std::pair<int,int> move, const int 
 		}
 	}
 	if (ok == true && number == 2) {
-		score += 4;
+		score += 4 * multiplier;
 	}
 
 	//pentru boardurile mici
@@ -829,8 +829,9 @@ void Board::heuristic(const int board, const std::pair<int,int> move, const int 
 	{
 		if (pos == move)
 		{
-			score += 2;
+			score += 2 * multiplier;
 			break;
 		}
 	}
+
 }
