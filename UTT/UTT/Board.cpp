@@ -198,6 +198,66 @@ void Board::updateMacroboard(const std::pair<int, int>& move)
 
 }
 
+bool Board::hasTwoOnARow(const int player, const int first, const int second, const int third) const
+{
+	if (_macroboard[first] == player &&
+		_macroboard[second] == player)
+	{
+		if (_macroboard[third] == 0 &&
+			!isFinished(third))
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
+bool Board::checkConfiguration(const int player, const int first, const int second, const int third, std::vector<int>& weights) const
+{
+	if (hasTwoOnARow(player, first, second, third))
+	{
+		weights[third]++;
+		return true;
+	}
+	else
+	{
+		if (hasTwoOnARow(player, first, third, second))
+		{
+			weights[second]++;
+			return true;
+
+		}
+		else
+		{
+			if (hasTwoOnARow(player, second, third, first))
+			{
+				weights[first]++;
+				return true;
+
+			}
+		}
+	}
+
+	return false;
+}
+
+bool Board::scanMacroboardForTwo(const int player, std::vector<int>& weights) const
+{
+	bool result = false;
+	result = result ||
+			 checkConfiguration(player, 0, 1, 2, weights) ||
+			 checkConfiguration(player, 3, 4, 5, weights) ||
+			 checkConfiguration(player, 6, 7, 8, weights) ||
+
+			 checkConfiguration(player, 0, 3, 6, weights) ||
+			 checkConfiguration(player, 1, 4, 7, weights) ||
+			 checkConfiguration(player, 2, 5, 8, weights) ||
+
+			 checkConfiguration(player, 0, 5, 8, weights) ||
+			 checkConfiguration(player, 3, 5, 7, weights);
+	return result;
+}
+
 bool Board::getClosingPositions(const int board,
 								const int player,
 								std::set< std::pair<int, int> > &allPositionsToClose) const{
@@ -267,20 +327,53 @@ int Board::eval(const int player) const
 {
 	if (gameIsFinished(player))
 	{
-		return std::numeric_limits<int>::max();
+		return INF;
 	}
-
 	if (gameIsFinished(UTTT::Core::Utility::getNextPlayer(player)))
 	{
-		return -std::numeric_limits<int>::max();
-	}
-	int scor = 0;
-	for (int i = 0; i < 9; i++)
-	{
-		scor += boardEval(i, player) - boardEval(i, UTTT::Core::Utility::getNextPlayer(player));
+		return -INF;
 	}
 
-	return scor;
+	unsigned short opponentPlayingBoards = 0;
+	int score = 0;
+
+	std::vector<int> cellWeight(9, 1);
+
+	if (scanMacroboardForTwo(player, cellWeight)) //avem cel putin o configuratie de 2 consecutive
+	{
+		score += 100;
+	}
+	if (scanMacroboardForTwo(UTTT::Core::Utility::getNextPlayer(player), cellWeight))//oponentul are cel putin o configuratie de 2 consecutive
+	{
+		score -= 75;
+	}
+
+	for (int i = 0; i < 9; i++)
+	{
+		if (_macroboard[i] == player)
+		{
+			score += 10;
+		}
+		if (_macroboard[i] == UTTT::Core::Utility::getNextPlayer(player))
+		{
+			score -= 10;
+		}
+		if (_macroboard[i] == 0 &&
+			!isFinished(i))
+		{
+			score += cellWeight[i] * (boardEval(i, player) - boardEval(i, UTTT::Core::Utility::getNextPlayer(player)));
+		}
+		if (_macroboard[i] == -1)
+		{
+			opponentPlayingBoards++;
+		}
+	}
+	//daca oponentul poate juca doar intr-un singur minigame, nu afectam cu nimic scorul
+	//altfel scadem scalat cu numarul de boarduri in care se poate misca din scor
+	//pentru a considera o mutare care da mana libera adversarului, mai slaba decat altele
+	score -= (opponentPlayingBoards - 1) * 5;
+
+	return score;
 }
 
 int Board::boardEval(const int board, const int player) const
@@ -307,10 +400,30 @@ int Board::next(const std::pair<int, int>& move) const
 {
 	std::pair<int,int> relativeMove = Position::getRelativePosition(move);
 
-	int nextBoard = 3 * relativeMove.first + relativeMove.second;
+	int nextBoard = 3 * relativeMove.second + relativeMove.first;
 
 	return isFinished(nextBoard) ? -1 : nextBoard;
 }
+
+// alex -> in ce board merge dupa "move" tarsnpus in relative position 0..2 0..2
+// ATENITIE --> NETESTATA
+int Board::goNextBoard(const std::pair<int, int>& move) const 
+{
+
+	std::pair <int, int> RelativePosition = Position::getRelativePosition(move);
+
+	if (RelativePosition.first == 0) {
+		return 0 + RelativePosition.second;
+	}
+	else if (RelativePosition.first == 1) {
+		return 3 + RelativePosition.second;
+	}
+	else {
+		return 6 + RelativePosition.second;
+	}
+}
+
+
 
 void Board::getEmptyPositions(const int board, std::set<std::pair<int, int> > &emptyPositions) const
 {
@@ -424,32 +537,16 @@ bool Board::throwOpponentInBlankGame(int board, const int opponent, std::vector<
 
 bool Board::playingBoards(const int move) const
 {
-	int board = Board::getBoard(move);
-	std::set<std::pair<int, int> > emptyPositions;
-
-	if (_macroboard[board] == 0)
-	{
-		getEmptyPositions(board, emptyPositions);
-
-		if (emptyPositions.size())
-		{
-			return true;
-		}
-	}
-
-	if (_macroboard[board] == -1)
-	{
-		return true;
-	}
-
-	return false;
+	return 1;
 }
 
 bool Board::isValid(const int move) const {
 
 	if (_field[move] == 0)
 	{
-		if (playingBoards(move))
+		int board = Board::getBoard(move);
+
+		if (_macroboard[board] == -1)
 		{
 			return true;
 		}
@@ -472,7 +569,7 @@ void Board::getEmptyPositions(std::set<std::pair<int,int> > &emptyPositions) con
 	std::set<std::pair<int, int> >::iterator position;
 	for (i = 0; i < 9; i++)
 	{
-		if (playingBoards(getPosition(i, 0, 0)))
+		if (_macroboard[i] == -1)
 		{
 			getEmptyPositions(i, positions);
 			for (j = 0; j < positions.size(); j++)

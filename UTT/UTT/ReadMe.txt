@@ -1,21 +1,24 @@
 Ultimate Tic Tac Toe 
-CCBigBlackBug
+CCBigBlackBug v24
 
 Niculae Ioan - Paul
 Albu Alexandru
 Ciuca Maria Theodora
 Toader Calin Mihai
 
-credentials:
-domain: pub.theaigames.com
-username: ioan_paul.niculae@stud.acs.upb.ro
-password: Galben12!@
+Algoritmul implementat pentru a 2a etapa este algoritmul negamax cu alpha-beta pruning.
 
-//minitutorial :
+Functia de evaluare euristica foloseste un heatMap pe jocul cel mare unde,
+daca sunt 2 celule adiacente completate de acelasi jucator, valoarea celei de
+a treia creste in heatMap, ponderea ei fiind mai mare in determinarea
+castigului fiecarui jucator
     
-se arhiveaza sursele + headerele intr-o arhiva .zip(nu conteaza numele)
-se incarca pe site
-win?? 
+Pentru aceasta, am implementat in clasa de Board metode de :
+isValid(move),
+isFinished(miniboard),
+finishes(move) -- verifica daca mutarea primita va inchide jocul
+applyMove(move)
+eval(player)
 
 
 

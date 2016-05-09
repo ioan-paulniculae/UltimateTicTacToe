@@ -1,6 +1,8 @@
 #pragma once
 #include <set>
 #include "Board.h"
+
+#define INF 999999
 namespace UTTT {
 	namespace Core {
 		class Utility
