@@ -40,7 +40,7 @@ std::pair<int, int> Position::getMatrixPosition(const Board *b, const int board,
 
 }
 
-void Position::getBoardPositions(const Board * b, const int board, std::vector<int>& boardPositions)
+void Position::getBoardPositions(const int board, std::vector<int>& boardPositions)
 {
 	int x = startingPosition[board];
 
