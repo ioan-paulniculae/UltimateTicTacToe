@@ -392,9 +392,12 @@ int Board::boardEval(const int board, const int player) const
 		{
 			myScore += cellWeight[i];
 		}
+		
 	}
 	return myScore;
 }
+
+
 
 int Board::next(const std::pair<int, int>& move) const
 {
