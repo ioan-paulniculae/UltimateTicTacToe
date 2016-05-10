@@ -23,7 +23,6 @@ public:
 	//returns all unique closing positions in the board for the player
 	//the positions are relative to the game NOT to the board
 
-	void heuristic(const int board, const std::pair<int,int> move, const int player, const int opponent, int &score, const int multiplier);
 	void getCurrentPlayingBoards(std::vector<int>& playing_boards);
 	bool getClosingPositions(const int board, const int player, std::set< std::pair<int, int> > &allPositionsToClose) const;
 	void getEmptyPositions(const int board, std::set<std::pair<int, int> > &emptyPositions) const;
