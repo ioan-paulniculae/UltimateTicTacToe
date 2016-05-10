@@ -493,9 +493,12 @@ int Board::boardEval(const int board, const int player) const
 			score += 2 * multiplier;
 			break;
 		}
+		
 	}
 	return score;
 }
+
+
 
 int Board::next(const std::pair<int, int>& move) const
 {
