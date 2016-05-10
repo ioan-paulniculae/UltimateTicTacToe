@@ -81,6 +81,10 @@ Pentru implementare am folosit urmatoarele functii:
 - void getEmptyPositions(std::set<std::pair<int, int> > &emptyPositions) const;
 	Functia primeste ca parametru prin referinta un set in are retine pozitiile libere din toate board-urile in care se mai poate juca.
 
+- int Board::boardEval(const int board, const int player) const;
+	Functia primeste ca parametrii un board si playerul curent. Verifica daca exista 2 marcate pe aceeasi linie, pe aceeasi coloana
+	sau pe diagonala si intoarce un scor.
+
 	In Position.h :
 
 - static int getPosition(const int board, const int i, const int j);
