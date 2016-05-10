@@ -378,6 +378,61 @@ int Board::eval(const int player) const
 
 int Board::boardEval(const int board, const int player) const
 {
+	int score=0;
+	std::vector<std::pair<int, int> > positions;
+	twoOnRow(board, player, 0, positions);
+	if (positions.size()) {
+		score += 2;
+	}
+	positions.clear();
+
+	twoOnRow(board, player, 1, positions);
+	if (positions.size()) {
+		score += 2;
+	}
+	positions.clear();
+
+	twoOnRow(board, player, 2, positions);
+	if (positions.size()) {
+		score += 2;
+	}
+	positions.clear();
+
+	twoOnColumn(board, player, 0, positions);
+	if (positions.size()) {
+		score += 2;
+	}
+	positions.clear();
+
+	twoOnColumn(board, player, 1, positions);
+	if (positions.size()) {
+		score += 2;
+	}
+	positions.clear();
+
+	twoOnColumn(board, player, 2, positions);
+	if (positions.size()) {
+		score += 2;
+	}
+	positions.clear();
+
+
+	twoOnFirstDiagonal(board, player, positions);
+	if (positions.size()) {
+		score += 2;
+	}
+	positions.clear();
+
+	twoOnSecondDiagonal(board, player, positions);
+	if (positions.size()) {
+		score += 2;
+	}
+	positions.clear();
+
+	return score;
+
+}/*
+
 	int id = 0;
 	int number, i, j;
 	bool ok;
@@ -497,7 +552,7 @@ int Board::boardEval(const int board, const int player) const
 	}
 	return score;
 }
-
+*/
 
 
 int Board::next(const std::pair<int, int>& move) const
