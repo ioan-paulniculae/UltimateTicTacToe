@@ -74,10 +74,8 @@ std::pair<int, std::pair<int, int>> UTTT::Core::BotIO::minimax(Board b, const in
 	return std::make_pair(alpha, toMove);
 }
 	
-std::pair<int, int> BotIO::action(const std::string &type, int time) {
-	return minimax(&_playingBoard, getBotId(), 2).second;
-	
-	
+std::pair<int, int> BotIO::heuristic() {
+
 	std::vector<int> playingBoards;
 	std::set<std::pair<int, int> > positions;
 	std::vector<std::pair<int, int> > pos;

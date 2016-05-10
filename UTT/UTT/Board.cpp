@@ -378,22 +378,123 @@ int Board::eval(const int player) const
 
 int Board::boardEval(const int board, const int player) const
 {
-	std::vector<int> boardPositions;
-	Position::getBoardPositions(this, board, boardPositions);
-	int cellWeight[9] =
-	{2, 1, 2,
-	 1, 3, 1,
-	 2, 1, 2
-	};
-	int myScore = 0;
-	for (int i = 0; i < boardPositions.size(); i++)
+	int id = 0;
+	int number, i, j;
+	bool ok;
+	int score = 0;
+	if (finishes(move, player, id))
 	{
-		if (_field[boardPositions[i]] == player)
+		score += 5 * multiplier;
+		if (board == 4)
 		{
-			myScore += cellWeight[i];
+			score += 10 * multiplier;
+		}
+		else if (board == 0 ||
+			board == 2 ||
+			board == 6 ||
+			board == 8)
+		{
+			score += 3 * multiplier;
 		}
 	}
-	return myScore;
+
+	std::pair<int, int> pair = Position::getRelativePosition(move);
+	if (pair.first == 1 && pair.second == 1)
+	{
+		score += 3 * multiplier;
+	}
+	if (board == 4)
+	{
+		score += 3 * multiplier;
+	}
+
+	// rows
+	for (i = 0; i < 3; i++)
+	{
+		number = 0;
+		ok = true;
+		for (j = 0; j < 3; ++j) {
+			if (_macroboard[3 * i + j] == player) {
+				number++;
+			}
+			if (_macroboard[3 * i + j] == opponent) {
+				ok = false;
+			}
+		}
+		if (ok == true && number == 2) {
+			score += 4 * multiplier;
+		}
+	}
+
+
+	// columns
+	for (i = 0; i < 3; i++)
+	{
+		number = 0;
+		ok = true;
+		for (j = 0; j < 3; ++j) {
+			if (_macroboard[i + 3 * j] == player) {
+				number++;
+			}
+			if (_macroboard[i + 3 * j] == opponent) {
+				ok = false;
+			}
+		}
+		if (ok == true && number == 2) {
+			score += 4 * multiplier;
+		}
+	}
+
+
+	// 1st diagonal
+	number = 0;
+	ok = true;
+	for (i = 0; i < 9; i += 4) {
+		if (_macroboard[i] == player) {
+			number++;
+		}
+		if (_macroboard[i] == opponent) {
+			ok = false;
+		}
+	}
+	if (ok == true && number == 2) {
+		score += 4 * multiplier;
+	}
+
+	// 2nd diagonal
+	number = 0;
+	ok = true;
+	for (i = 2; i < 7; i += 2) {
+		if (_macroboard[i] == player) {
+			number++;
+		}
+		if (_macroboard[i] == opponent) {
+			ok = false;
+		}
+	}
+	if (ok == true && number == 2) {
+		score += 4 * multiplier;
+	}
+
+	//pentru boardurile mici
+	std::set<std::pair<int, int>> positions;
+
+	int i;
+
+	for (i = 0; i < 9; i++)
+	{
+		getClosingPositions(i, player, positions);
+	}
+
+	for (auto &pos : positions)
+	{
+		if (pos == move)
+		{
+			score += 2 * multiplier;
+			break;
+		}
+	}
+	return score;
 }
 
 int Board::next(const std::pair<int, int>& move) const
@@ -714,124 +815,4 @@ std::ostream & operator<<(std::ostream & os, const Board & b)
 		os << std::endl;
 	}
 	return os;
-}
-
-/// aici e doar pentru player nu si pentru opponent
-/// nu e si pentru opponent
-void Board::heuristic(const int board, const std::pair<int,int> move, const int player, const int opponent, int &score, const int multiplier)
-{
-	int id = 0;
-	int number, i, j;
-	bool ok;
-	
-	if (finishes(move, player, id))
-	{
-		score += 5 * multiplier;
-		if (board == 4)
-		{
-			score += 10 * multiplier;
-		}
-		else if (board == 0 || board == 2 || board == 6 || board == 8)
-		{
-			score += 3 * multiplier;
-		}
-	}
-
-	std::pair<int, int> pair = Position::getRelativePosition(move);
-	if (pair.first == 1 && pair.second == 1)
-	{
-		score += 3 * multiplier;
-	}
-	if (board == 4)
-	{
-		score += 3 * multiplier;
-	}
-
-	// rows
-	for (i = 0; i < 3; i++)
-	{
-		number = 0;
-		ok = true;
-		for (j = 0; j < 3; ++j) {
-			if (_macroboard[3 * i + j] == player) {
-				number++;
-			}
-			if (_macroboard[3 * i + j] == opponent) {
-				ok = false;
-			}
-		}
-		if (ok == true && number == 2) {
-			score += 4 * multiplier;
-		}
-	}
-
-
-	// columns
-	for (i = 0; i < 3; i++)
-	{
-		number = 0;
-		ok = true;
-		for (j = 0; j < 3; ++j) {
-			if (_macroboard[i + 3 * j] == player) {
-				number++;
-			}
-			if (_macroboard[i + 3 * j] == opponent) {
-				ok = false;
-			}
-		}
-		if (ok == true && number == 2) {
-			score += 4 * multiplier;
-		}
-	}
-
-
-	// 1st diagonal
-	number = 0;
-	ok = true;
-	for (i = 0; i < 9; i += 4) {
-		if (_macroboard[i] == player) {
-			number++;
-		}
-		if (_macroboard[i] == opponent) {
-			ok = false;
-		}
-	}
-	if (ok == true && number == 2) {
-		score += 4 * multiplier;
-	}
-
-	// 2nd diagonal
-	number = 0;
-	ok = true;
-	for (i = 2; i < 7; i += 2) {
-		if (_macroboard[i] == player) {
-			number++;
-		}
-		if (_macroboard[i] == opponent) {
-			ok = false;
-		}
-	}
-	if (ok == true && number == 2) {
-		score += 4 * multiplier;
-	}
-
-	//pentru boardurile mici
-	std::set<std::pair<int, int>> positions;
-	
-	int i;
-
-	for (i = 0; i < 9; i++)
-	{
-		getClosingPositions(i, player, positions);
-	}
-
-	for (auto &pos : positions)
-	{
-		if (pos == move)
-		{
-			score += 2 * multiplier;
-			break;
-		}
-	}
-
 }
